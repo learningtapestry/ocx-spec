@@ -280,6 +280,7 @@ function buildOcxContent(entityBuilds: EntityBuild[]) {
     "OcxEntity",
     ...entityBuilds.map((b) => `Ocx${b.entity}`),
   ];
+  const ocxEntityUnion = entityBuilds.map((b) => `Ocx${b.entity}`).join(" | ");
   const lines = [
     "// AUTO-GENERATED FILE. Do not edit directly; run generateSchemas instead.",
     'import { scope } from "arktype";',
@@ -317,10 +318,7 @@ function buildOcxContent(entityBuilds: EntityBuild[]) {
     "",
     '  "refable<target>": "target | OcxRef",',
     "",
-    '  "OcxEntity<name extends string, entity extends object>": {',
-    '    "...": "entity",',
-    '    "@type": "name",',
-    "  },",
+    `  OcxEntity: "${ocxEntityUnion}",`,
     "",
   ];
 

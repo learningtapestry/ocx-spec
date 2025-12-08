@@ -38,10 +38,8 @@ const ocxEntities = {
 
   "refable<target>": "target | OcxRef",
 
-  "OcxEntity<name extends string, entity extends object>": {
-    "...": "entity",
-    "@type": "name",
-  },
+  OcxEntity:
+    "OcxCourse | OcxLessonGrouping | OcxLesson | OcxActivity | OcxAssessment | OcxMaterial | OcxClassroomMaterial | OcxGlossaryTerm | OcxInstructionalRoutine | OcxStandardsFramework | OcxStandardsFrameworkItem",
 
   OcxCourse: ocxify("Course", entityRelationships.Course),
 
