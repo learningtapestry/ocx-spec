@@ -1,0 +1,506 @@
+[
+  {
+    "name": "AcademicSubjectENUM",
+    "description": "The following terms define the allowed values for identifying the academic subject associated with a resource.",
+    "values": [
+      {
+        "value": "English Language Arts",
+        "definition": "Description: Encompasses reading, writing, speaking, listening, and language development, including literature, grammar, and vocabulary."
+      },
+      {
+        "value": "Mathematics",
+        "definition": "Description: Instruction in numbers, operations, algebra, geometry, statistics, probability, functions, and problem-solving at all grade levels."
+      },
+      {
+        "value": "Social Studies",
+        "definition": "Description: Includes geography, civics, economics, anthropology, psychology, and sociology, focused on human behavior, institutions, and society."
+      },
+      {
+        "value": "Science",
+        "definition": "Description: The study of the natural and physical world through observation, experimentation, and analysis, including disciplines such as biology, chemistry, physics, earth science, and environmental science."
+      },
+      {
+        "value": "Other",
+        "definition": "Description: Academic content that does not fit into traditional subject categories, which may include interdisciplinary studies, career and technical education, life skills, or emerging fields."
+      }
+    ]
+  },
+  {
+    "name": "AdoptionStatusENUM",
+    "description": "The following terms define the allowed values for representing the adoption status of a state standards framework.",
+    "values": [
+      {
+        "value": "Draft",
+        "definition": "Definition: In development; not yet finalized or publicly released."
+      },
+      {
+        "value": "Proposed",
+        "definition": "Definition: Shared for public review but not officially adopted."
+      },
+      {
+        "value": "Adopted",
+        "definition": "Definition: Officially released by the issuing body; publicly available."
+      },
+      {
+        "value": "Implemented",
+        "definition": "Definition: Actively adopted and used in practice by schools or districts."
+      },
+      {
+        "value": "Retired",
+        "definition": "Definition: No longer recommended or supported; replaced, obsolete, or withdrawn from use."
+      }
+    ]
+  },
+  {
+    "name": "Duration",
+    "description": "Durations are encoded using the ISO 8601 standard (PnYnMnDTnHnMnS), allowing precise representation of years, months, days, hours, minutes, and seconds.",
+    "values": [
+      {
+        "value": "Years",
+        "definition": "Format: PnY | Example: P2Y | Meaning: Period of 2 years"
+      },
+      {
+        "value": "Months",
+        "definition": "Format: PnM | Example: P3M | Meaning: Period of 3 months"
+      },
+      {
+        "value": "Weeks",
+        "definition": "Format: PnW | Example: P4W | Meaning: Period of 4 weeks"
+      },
+      {
+        "value": "Days",
+        "definition": "Format: PnD | Example: P5D | Meaning: Period of 5 days"
+      },
+      {
+        "value": "Hours",
+        "definition": "Format: PTnH | Example: PT6H | Meaning: Period of 6 hours"
+      },
+      {
+        "value": "Minutes",
+        "definition": "Format: PTnM | Example: PT30M | Meaning: Period of 30 minutes"
+      },
+      {
+        "value": "Seconds",
+        "definition": "Format: PTnS | Example: PT45S | Meaning: Period of 45 seconds"
+      },
+      {
+        "value": "Combined",
+        "definition": "Format: PnYnMnDTnHnMnS | Example: P1Y2M3DT4H5M6S | Meaning: Period of 1 year, 2 months, 3 days, 4 hours, 5 minutes, and 6 seconds"
+      }
+    ]
+  },
+  {
+    "name": "EducationalAudienceENUM",
+    "description": "The following terms define the intended audience for an educational resource.",
+    "values": [
+      {
+        "value": "Teacher",
+        "definition": "Definition: The resource is designed to support educators in preparing for or delivering instruction (e.g., teacher guides, lesson plans, pacing guides)."
+      },
+      {
+        "value": "Student",
+        "definition": "Definition: The resource is intended to be used directly by learners (e.g., student activities, readings, practice problems)."
+      },
+      {
+        "value": "Family",
+        "definition": "Definition: The resource is meant to engage families or caregivers in supporting student learning (e.g., family letters, at-home discussion guides)."
+      }
+    ]
+  },
+  {
+    "name": "EducationalUseENUM",
+    "description": "The following terms define the purpose of an educational resource.",
+    "values": [
+      {
+        "value": "Instruction",
+        "definition": "Definition: The resource is used to support learning through direct instruction, guided practice, exploration, discussion, or other instructional strategies."
+      },
+      {
+        "value": "Assessment",
+        "definition": "Definition: The resource is designed to evaluate student understanding, either during the learning process (formative) or after instruction (summative)."
+      }
+    ]
+  },
+  {
+    "name": "GradeLevelENUM",
+    "description": "The following terms define the grade levels a resource is intended for.",
+    "values": [
+      {
+        "value": "PK",
+        "definition": "Definition: US Pre-Kindergarten"
+      },
+      {
+        "value": "K",
+        "definition": "Definition: US Kindergarten"
+      },
+      {
+        "value": "1",
+        "definition": "Definition: US 1st Grade"
+      },
+      {
+        "value": "2",
+        "definition": "Definition: US 2nd Grade"
+      },
+      {
+        "value": "3",
+        "definition": "Definition: US 3rd Grade"
+      },
+      {
+        "value": "4",
+        "definition": "Definition: US 4th Grade"
+      },
+      {
+        "value": "5",
+        "definition": "Definition: US 5th Grade"
+      },
+      {
+        "value": "6",
+        "definition": "Definition: US 6th Grade"
+      },
+      {
+        "value": "7",
+        "definition": "Definition: US 7th Grade"
+      },
+      {
+        "value": "8",
+        "definition": "Definition: US 8th Grade"
+      },
+      {
+        "value": "9",
+        "definition": "Definition: US 9th Grade"
+      },
+      {
+        "value": "10",
+        "definition": "Definition: US 10th Grade"
+      },
+      {
+        "value": "11",
+        "definition": "Definition: US 11th Grade"
+      },
+      {
+        "value": "12",
+        "definition": "Definition: US 12th Grade"
+      },
+      {
+        "value": "null",
+        "definition": "Definition: Grade level is unspecified, unknown, or not yet classified."
+      }
+    ]
+  },
+  {
+    "name": "JurisdictionENUM",
+    "description": "The following terms define the jurisdiction a resource belongs to.",
+    "values": [
+      {
+        "value": "Alabama",
+        "definition": "Definition: A jurisdiction within the United States of America; one of the 50 states, with its own state constitution, laws, and governance structures."
+      },
+      {
+        "value": "Alaska",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Arizona",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Arkansas",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "California",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Colorado",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Connecticut",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Delaware",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Florida",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Georgia",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Hawaii",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Idaho",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Illinois",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Indiana",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Iowa",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Kansas",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Kentucky",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Louisiana",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Maine",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Maryland",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Massachusetts",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Michigan",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Minnesota",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Mississippi",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Missouri",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Montana",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Nebraska",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Nevada",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "New Hampshire",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "New Jersey",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "New Mexico",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "New York",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "North Carolina",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "North Dakota",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Ohio",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Oklahoma",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Oregon",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Pennsylvania",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Rhode Island",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "South Carolina",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "South Dakota",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Tennessee",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Texas",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Utah",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Vermont",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Virginia",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Washington",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Washington, D.C.",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "West Virginia",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Wisconsin",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Wyoming",
+        "definition": "Definition: Same as above."
+      },
+      {
+        "value": "Multi-State",
+        "definition": "Definition: A jurisdictional designation indicating applicability across more than one U.S. state, rather than being limited to a single state."
+      }
+    ]
+  },
+  {
+    "name": "LanguageENUM",
+    "description": "The following terms define the language a resource is available in.",
+    "values": [
+      {
+        "value": "en-US",
+        "definition": "Definition: English as used in the United States."
+      },
+      {
+        "value": "es-US",
+        "definition": "Definition: Spanish as used in the United States."
+      }
+    ]
+  },
+  {
+    "name": "lmsLoadingGuidanceENUM",
+    "description": "The following terms define the vendor’s guidance for whether or not a resource should be loaded into a Learning Management System (LMS).",
+    "values": [
+      {
+        "value": "Required",
+        "definition": "Definition: The resource is essential and should always be loaded into the LMS."
+      },
+      {
+        "value": "Recommended",
+        "definition": "Definition: The vendor suggests this resource should be loaded into the LMS."
+      },
+      {
+        "value": "Optional",
+        "definition": "Definition: The resource may be loaded into the LMS at the discretion of the school or district."
+      },
+      {
+        "value": "Not Recommended",
+        "definition": "Definition: The vendor advises against loading this resource into the LMS, though it is not prohibited."
+      },
+      {
+        "value": "Unspecified",
+        "definition": "Definition: No specific guidance is provided by the vendor regarding LMS inclusion."
+      }
+    ]
+  },
+  {
+    "name": "MaterialTypeENUM",
+    "description": "The following terms define how a material relates to the core curriculum, distinguishing between primary instructional materials, optional enhancements, and reference resources.",
+    "values": [
+      {
+        "value": "Core",
+        "definition": "Definition: Materials that provide the main instructional material (e.g. Lesson)"
+      },
+      {
+        "value": "Supporting",
+        "definition": "Definition: Materials that are optional and enhance or extend the core content, providing additional practice or enrichment opportunities (e.g., optional reading materials, practice worksheets)"
+      },
+      {
+        "value": "Reference",
+        "definition": "Definition: Materials that provide additional information about the learning resource (e.g., Course guides) or is referenced by the instructional activity (e.g., primary sources, novel studied in a Course, glossary)."
+      }
+    ]
+  },
+  {
+    "name": "NormalizedStatementTypeENUM",
+    "description": "The following terms define the classification of a framework item based on its role in a standards framework.",
+    "values": [
+      {
+        "value": "Standard",
+        "definition": "Definition: Represents a normative statement of expected knowledge or skill that instructional materials, activities, or assessments may align to. These are the actionable learning expectations that describe what a student should know or be able to do at a given stage."
+      },
+      {
+        "value": "Standard Grouping",
+        "definition": "Definition: Represents an organizational or structural element in the hierarchy of a standards framework. These elements group related standards under categories such as grade level, domain, strand, or topic. They are not instructional targets themselves but help define the framework’s logical and visual structure."
+      },
+      {
+        "value": "Other",
+        "definition": "Definition: Represents framework elements that do not serve as instructional targets or structural groupings. These may include legislative introductions, general requirements, explanatory notes, or other non-hierarchical components that provide policy context, implementation guidance, or metadata."
+      },
+      {
+        "value": "null",
+        "definition": "Definition: Normalized statement type is unspecified, unknown, or not yet classified."
+      }
+    ]
+  },
+  {
+    "name": "StudentGroupingTypeENUM",
+    "description": "The following terms define the intended grouping of students when engaging with an activity or resource.",
+    "values": [
+      {
+        "value": "Individual",
+        "definition": "Definition: The activity is designed for students to work independently, without interaction with peers, to complete tasks or solve problems."
+      },
+      {
+        "value": "Pair",
+        "definition": "Definition: The activity is designed for students to work in pairs, fostering one-on-one collaboration, mutual support, and shared problem-solving."
+      },
+      {
+        "value": "Small Group",
+        "definition": "Definition: The activity is designed for students to work in small groups, typically consisting of 3–5 members, to engage in cooperative learning, share diverse perspectives, and collaboratively complete tasks."
+      },
+      {
+        "value": "Whole Class",
+        "definition": "Definition: The activity is designed for the entire class to work together as a single group, often led by the teacher, to discuss, analyze, or collaboratively engage in large-scale tasks"
+      }
+    ]
+  }
+]

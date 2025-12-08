@@ -1,0 +1,11 @@
+{
+  "@type": "Activity",
+  "identifier": "activity-equations",
+  "name": "Activity: Balance the Scale",
+  "audience": ["Teacher"],
+  "author": "Curriculum Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-02-01T00:00:00Z",
+  "hasPart": [{ "$ref": "material-equations-handout" }]
+}

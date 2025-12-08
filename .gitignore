@@ -1,5 +1,8 @@
 node_modules/
 npm-debug.log*
+dist/
+build/
+tmp/
 
 .DS_Store
 .idea/
