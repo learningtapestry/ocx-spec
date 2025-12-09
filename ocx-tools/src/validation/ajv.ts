@@ -8,6 +8,6 @@ ajv.addFormat("date-time", {
   validate: (value: string) => !Number.isNaN(Date.parse(value)),
 });
 
-const validate = ajv.compile(ocxSchema);
+export const validate = ajv.compile(ocxSchema);
 
 export default validate;

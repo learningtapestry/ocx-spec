@@ -455,6 +455,8 @@ const definitions = {
 
 export const ocx = scope(definitions).export();
 
+export default ocx;
+
 export type OcxEntityType = typeof ocx.OcxEntityType.infer;
 
 export type OcxLink<T extends OcxEntityType = OcxEntityType> = {

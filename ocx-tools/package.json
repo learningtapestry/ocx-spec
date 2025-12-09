@@ -8,7 +8,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run generate-schema && tsc && cp src/ocx{.d.ts,.schema.json} dist/",
+    "build": "tsc && cp src/ocx{.d.ts,.schema.json} dist/",
     "clean": "rm -rf dist",
     "format": "biome format --write",
     "lint": "biome check",
@@ -16,7 +16,9 @@
     "prepublishOnly": "npm run lint && npm run typecheck && npm run clean && npm run build",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.all.json",
-    "generate-schema": "tsx scripts/generateSchema.ts ontology/entities.json ontology/value_standards.json src/ && tsx scripts/generateArkTypes.ts ontology/entities.json ontology/value_standards.json src/validation/ark.ts"
+    "generate-json-schema": "tsx scripts/generateSchema.ts ontology/entities.json ontology/value_standards.json src/",
+    "generate-arktype": "tsx scripts/generateArkTypes.ts ontology/entities.json ontology/value_standards.json src/validation/ark.ts",
+    "generate-schema": "npm run generate-json-schema && npm run generate-arktype"
   },
   "files": [
     "dist"
@@ -32,7 +34,17 @@
       "import": "./dist/ocx.js",
       "default": "./dist/ocx.js"
     },
-    "./ocx.schema.json": "./dist/ocx.schema.json"
+    "./ocx.schema.json": "./dist/ocx.schema.json",
+    "./validation/ajv": {
+      "types": "./dist/validation/ajv.d.ts",
+      "import": "./dist/validation/ajv.js",
+      "default": "./dist/validation/ajv.js"
+    },
+    "./validation/ark": {
+      "types": "./dist/validation/ark.d.ts",
+      "import": "./dist/validation/ark.js",
+      "default": "./dist/validation/ark.js"
+    }
   },
   "sideEffects": false,
   "engines": {

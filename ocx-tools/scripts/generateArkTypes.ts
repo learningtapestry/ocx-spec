@@ -110,7 +110,7 @@ const buildLinkExpression = (allowedEntities: string[]) => {
 const buildPropertyExpression = (
   details: PropertyDetails,
   currentEntity: string,
-): { expression: string; required: boolean } => {
+) => {
   const normalizedTypes = normalizeTypes(details.type);
   const resolvedTypes = normalizedTypes.map((entry) =>
     resolveBaseType(entry, currentEntity),
@@ -218,6 +218,7 @@ const buildArkFileContent = (entityList: Entity[]) => {
   lines.push("} as const;", "");
 
   lines.push("export const ocx = scope(definitions).export();", "");
+  lines.push("export default ocx;", "");
   lines.push("export type OcxEntityType = typeof ocx.OcxEntityType.infer;");
   lines.push("");
   lines.push(
