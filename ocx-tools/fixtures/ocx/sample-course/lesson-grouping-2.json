@@ -1,4 +1,5 @@
 {
+  "@id": "urn:ocx:lg-equations",
   "@type": "LessonGrouping",
   "identifier": "lg-equations",
   "groupLevel": 2,
@@ -8,5 +9,7 @@
   "license": "CC-BY",
   "providerDateCreated": "2024-01-01T00:00:00Z",
   "providerDateModified": "2024-02-01T00:00:00Z",
-  "hasPart": [{ "$ref": "lesson-equations" }]
+  "hasPart": [
+    { "link": { "@id": "urn:ocx:lesson-equations", "@type": "Lesson" } }
+  ]
 }

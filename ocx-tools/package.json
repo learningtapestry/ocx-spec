@@ -8,15 +8,15 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run generate-schema && tsc && cp src/ocx{.d.ts,.schema.json} dist/",
     "clean": "rm -rf dist",
     "format": "biome format --write",
     "lint": "biome check",
     "lint-fix": "biome check --write",
     "prepublishOnly": "npm run lint && npm run typecheck && npm run clean && npm run build",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "generate-schemas": "tsx scripts/generateSchemas.ts ontology/entities.json ontology/value_standards.json src/types/ && npm run format"
+    "typecheck": "tsc -p tsconfig.all.json",
+    "generate-schema": "tsx scripts/generateSchema.ts ontology/entities.json ontology/value_standards.json src/ && tsx scripts/generateArkTypes.ts ontology/entities.json ontology/value_standards.json src/validation/ark.ts"
   },
   "files": [
     "dist"
@@ -27,7 +27,12 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./ocx": {
+      "types": "./dist/ocx.d.ts",
+      "import": "./dist/ocx.js",
+      "default": "./dist/ocx.js"
+    },
+    "./ocx.schema.json": "./dist/ocx.schema.json"
   },
   "sideEffects": false,
   "engines": {
@@ -42,14 +47,25 @@
     "url": "https://github.com/learningtapestry/ocx-spec/issues"
   },
   "homepage": "https://github.com/learningtapestry/ocx-spec/tree/main/ocx-tools",
-  "dependencies": {
-    "arktype": "^2.1.28"
-  },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
     "@types/node": "^24.10.1",
+    "ajv": "^8.17.1",
+    "arktype": "^2.1.28",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15"
+  },
+  "peerDependencies": {
+    "ajv": "^8.17.1",
+    "arktype": "^2.1.28"
+  },
+  "peerDependenciesMeta": {
+    "arktype": {
+      "optional": true
+    },
+    "ajv": {
+      "optional": true
+    }
   }
 }
