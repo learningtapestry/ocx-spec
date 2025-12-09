@@ -136,20 +136,6 @@ const enums = {
 const definitions = {
   ...enums,
 
-  OcxEntityType: type.enumerated(
-    "Course",
-    "LessonGrouping",
-    "Lesson",
-    "Activity",
-    "Assessment",
-    "Material",
-    "ClassroomMaterial",
-    "GlossaryTerm",
-    "InstructionalRoutine",
-    "StandardsFramework",
-    "StandardsFrameworkItem",
-  ),
-
   "OcxLink<t>": {
     link: {
       "@id": "string",
@@ -451,74 +437,22 @@ const definitions = {
     "hasChild?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
   },
+
+  OcxEntity: `
+    Course |
+    LessonGrouping |
+    Lesson |
+    Activity |
+    Assessment |
+    Material |
+    ClassroomMaterial |
+    GlossaryTerm |
+    InstructionalRoutine |
+    StandardsFramework |
+    StandardsFrameworkItem
+  `,
 } as const;
 
 export const ocx = scope(definitions).export();
 
 export default ocx;
-
-export type OcxEntityType = typeof ocx.OcxEntityType.infer;
-
-export type OcxLink<T extends OcxEntityType = OcxEntityType> = {
-  link: { "@id": string; "@type": T };
-};
-
-export type AcademicSubjectENUM = typeof ocx.AcademicSubjectENUM.infer;
-
-export type AdoptionStatusENUM = typeof ocx.AdoptionStatusENUM.infer;
-
-export type Duration = typeof ocx.Duration.infer;
-
-export type EducationalAudienceENUM = typeof ocx.EducationalAudienceENUM.infer;
-
-export type EducationalUseENUM = typeof ocx.EducationalUseENUM.infer;
-
-export type GradeLevelENUM = typeof ocx.GradeLevelENUM.infer;
-
-export type JurisdictionENUM = typeof ocx.JurisdictionENUM.infer;
-
-export type LanguageENUM = typeof ocx.LanguageENUM.infer;
-
-export type lmsLoadingGuidanceENUM = typeof ocx.lmsLoadingGuidanceENUM.infer;
-
-export type MaterialTypeENUM = typeof ocx.MaterialTypeENUM.infer;
-
-export type NormalizedStatementTypeENUM =
-  typeof ocx.NormalizedStatementTypeENUM.infer;
-
-export type StudentGroupingTypeENUM = typeof ocx.StudentGroupingTypeENUM.infer;
-
-export type Course = typeof ocx.Course.infer;
-
-export type LessonGrouping = typeof ocx.LessonGrouping.infer;
-
-export type Lesson = typeof ocx.Lesson.infer;
-
-export type Activity = typeof ocx.Activity.infer;
-
-export type Assessment = typeof ocx.Assessment.infer;
-
-export type Material = typeof ocx.Material.infer;
-
-export type ClassroomMaterial = typeof ocx.ClassroomMaterial.infer;
-
-export type GlossaryTerm = typeof ocx.GlossaryTerm.infer;
-
-export type InstructionalRoutine = typeof ocx.InstructionalRoutine.infer;
-
-export type StandardsFramework = typeof ocx.StandardsFramework.infer;
-
-export type StandardsFrameworkItem = typeof ocx.StandardsFrameworkItem.infer;
-
-export type OcxEntity =
-  | Course
-  | LessonGrouping
-  | Lesson
-  | Activity
-  | Assessment
-  | Material
-  | ClassroomMaterial
-  | GlossaryTerm
-  | InstructionalRoutine
-  | StandardsFramework
-  | StandardsFrameworkItem;

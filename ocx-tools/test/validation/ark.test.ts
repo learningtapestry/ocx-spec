@@ -63,4 +63,9 @@ describe("validation/ark", () => {
       expect(result).toBeInstanceOf(type.errors);
     });
   });
+
+  it("exports an OcxEntity union", () => {
+    const course = loadFixture("course.json");
+    expect(ocx.OcxEntity(course)).not.toBeInstanceOf(type.errors);
+  });
 });

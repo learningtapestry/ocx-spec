@@ -196,12 +196,9 @@ const buildArkFileContent = (entityList: Entity[]) => {
   });
   lines.push("} as const;", "");
 
-  const ocxEntityType = entityNames.map(wrapLiteral).join(", ");
   lines.push(
     "const definitions = {",
     "  ...enums,",
-    "",
-    `  OcxEntityType: type.enumerated(${ocxEntityType}),`,
     "",
     `  "OcxLink<t>": {`,
     `    link: {`,
@@ -215,33 +212,19 @@ const buildArkFileContent = (entityList: Entity[]) => {
   entityList.forEach((entity) => {
     lines.push(...buildEntityDefinition(entity));
   });
-  lines.push("} as const;", "");
+
+  lines.push("  OcxEntity: `");
+
+  for (let i = 0; i < entityNames.length; i++) {
+    const entityName = entityNames[i];
+    const suffix = i === entityNames.length - 1 ? "" : " |";
+    lines.push(`    ${entityName}${suffix}`);
+  }
+
+  lines.push("  `", "} as const;", "");
 
   lines.push("export const ocx = scope(definitions).export();", "");
   lines.push("export default ocx;", "");
-  lines.push("export type OcxEntityType = typeof ocx.OcxEntityType.infer;");
-  lines.push("");
-  lines.push(
-    "export type OcxLink<T extends OcxEntityType = OcxEntityType> = {",
-    '  link: { "@id": string; "@type": T };',
-    "};",
-    "",
-  );
-
-  valueStandards.forEach((entry) => {
-    lines.push(
-      `export type ${entry.name} = typeof ocx.${entry.name}.infer;`,
-      "",
-    );
-  });
-  entityList.forEach((entity) => {
-    lines.push(
-      `export type ${entity.entity} = typeof ocx.${entity.entity}.infer;`,
-      "",
-    );
-  });
-
-  lines.push(`export type OcxEntity = ${entityNames.join(" | ")};`, "");
 
   return `${lines.join("\n").trimEnd()}\n`;
 };
