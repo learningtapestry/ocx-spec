@@ -46,7 +46,7 @@ if (out instanceof type.errors) {
 
 ## Working with JSON Schema
 
-A precompiled AJV validator is available if you'd like to work with JSON Schema-based validation at runtime.
+A precompiled [AJV](https://ajv.js.org/) validator is available if you'd like to work with JSON Schema-based validation at runtime.
 
 The dependency on AJV is optional; only install it if you need it.
 
@@ -64,7 +64,7 @@ if (!validate(ocxData)) {
 }
 ```
 
-The JSON schema is also directly available [here](src/ocx.schema.json):
+The JSON schema is also directly available [here](src/ocx.schema.json). You can use it as follows:
 
 ```ts
 import Ajv from "ajv";
