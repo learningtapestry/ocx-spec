@@ -3,7 +3,7 @@
 Instances of the [01_ontology.md](ontology) types can be encoded as JSON according to the following
 [JSON Schema](https://json-schema.org/):
 
-[OCX JSON schema](https://github.com/learningtapestry/ocx-spec/ocx-tools/src/ocx.schema.json)
+[OCX JSON schema](/ocx-tools/src/ocx.schema.json)
 
 ## Additional required properties
 

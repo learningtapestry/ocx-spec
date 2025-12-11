@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "manifest.schema.json",
+  "title": "OCX Manifest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string",
+      "pattern": "^ocx@\\d+\\.\\d+\\.\\d+$"
+    },
+    "contents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "Course",
+              "LessonGrouping",
+              "Lesson",
+              "Activity",
+              "Assessment",
+              "Material",
+              "ClassroomMaterial",
+              "GlossaryTerm",
+              "InstructionalRoutine",
+              "StandardsFramework",
+              "StandardsFrameworkItem"
+            ]
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "format",
+    "contents"
+  ],
+  "additionalProperties": false
+}
