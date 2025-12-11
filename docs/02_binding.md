@@ -5,6 +5,8 @@ Instances of the [01_ontology.md](ontology) types can be encoded as JSON accordi
 
 [OCX JSON schema](/ocx-tools/src/ocx.schema.json)
 
+We recommend naming OCX JSON files as `<filename>.ocx.json`.
+
 ## Additional required properties
 
 Aside from the properties defined in the ontology, the JSON representation requires the properties

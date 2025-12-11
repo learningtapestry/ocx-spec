@@ -66,7 +66,7 @@ A schema for the manifest's JSON format is available here:
 
 ## Example
 
-``` json
+```js
 {
   "$schema": "https://path/to/ocx/manifest.schema.json",
   "name": "Grade 1 ELA Unit 1",
