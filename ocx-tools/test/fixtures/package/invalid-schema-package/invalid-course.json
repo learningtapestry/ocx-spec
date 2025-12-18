@@ -1,0 +1,6 @@
+{
+  "@type": "Course",
+  "@id": "invalid-course",
+  "name": "Invalid Course",
+  "audience": "not-an-array"
+}

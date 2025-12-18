@@ -6,6 +6,8 @@ and a manifest file.
 The OCX entities contained in the package are expected to be related:
 a package is typically used to transfer a whole set of lesson groupings.
 
+We recommend naming OCX package files `<filename>.ocx.zip`.
+
 ## Manifest file
 
 The manifest file **must** be named:

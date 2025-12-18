@@ -1,0 +1,15 @@
+import type { OcxEntityType } from "./ocx";
+
+export interface ManifestContentEntry {
+  path: string;
+  name?: string;
+  description?: string;
+  type?: OcxEntityType;
+}
+
+export interface Manifest {
+  name?: string;
+  description?: string;
+  format: `ocx@${string}`;
+  contents: ManifestContentEntry[];
+}

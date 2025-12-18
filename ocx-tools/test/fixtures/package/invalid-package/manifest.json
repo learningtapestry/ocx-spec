@@ -1,0 +1,10 @@
+{
+  "name": "Invalid Package",
+  "format": "ocx@2.0.0",
+  "contents": [
+    {
+      "path": "missing-file.json",
+      "type": "Course"
+    }
+  ]
+}

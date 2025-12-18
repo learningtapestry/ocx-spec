@@ -1,5 +1,5 @@
 {
-  "name": "@learningtapestry/ocx-tools",
+  "name": "ocx-tools",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -7,15 +7,20 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "ocx-validate": "./dist/bin/ocx-validate.js"
+  },
   "scripts": {
-    "build": "tsc && cp src/ocx{.d.ts,.schema.json} dist/",
+    "build": "tsc -p tsconfig.dist.json && cp src/*{.d.ts,.schema.json} dist/ && chmod +x ./dist/bin/ocx-validate.js",
     "clean": "rm -rf dist",
     "format": "biome format --write",
     "lint": "biome check",
     "lint-fix": "biome check --write",
     "prepublishOnly": "npm run lint && npm run typecheck && npm run clean && npm run build",
-    "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.all.json",
+    "test": "vitest run --exclude test/bin/**",
+    "test:bin": "vitest run test/bin",
+    "test:all": "vitest run",
+    "typecheck": "tsc",
     "generate-json-schema": "tsx scripts/generateSchema.ts ontology/entities.json ontology/value_standards.json src/",
     "generate-arktype": "tsx scripts/generateArkTypes.ts ontology/entities.json ontology/value_standards.json src/validation/ark.ts",
     "generate-schema": "npm run generate-json-schema && npm run generate-arktype"
@@ -29,6 +34,12 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./manifest": {
+      "types": "./dist/manifest.d.ts",
+      "import": "./dist/manifest.js",
+      "default": "./dist/manifest.js"
+    },
+    "./manifest.schema.json": "./dist/manifest.schema.json",
     "./ocx": {
       "types": "./dist/ocx.d.ts",
       "import": "./dist/ocx.js",
@@ -44,6 +55,16 @@
       "types": "./dist/validation/ark.d.ts",
       "import": "./dist/validation/ark.js",
       "default": "./dist/validation/ark.js"
+    },
+    "./validation/manifest-ajv": {
+      "types": "./dist/validation/manifest-ajv.d.ts",
+      "import": "./dist/validation/manifest-ajv.js",
+      "default": "./dist/validation/manifest-ajv.js"
+    },
+    "./validation/package": {
+      "types": "./dist/validation/package.d.ts",
+      "import": "./dist/validation/package.js",
+      "default": "./dist/validation/package.js"
     }
   },
   "sideEffects": false,
@@ -59,7 +80,12 @@
     "url": "https://github.com/learningtapestry/ocx-spec/issues"
   },
   "homepage": "https://github.com/learningtapestry/ocx-spec/tree/main/ocx-tools",
+  "dependencies": {
+    "@zip.js/zip.js": "^2.7.54",
+    "semver": "^7.7.2"
+  },
   "devDependencies": {
+    "@types/semver": "^7.7.0",
     "@biomejs/biome": "^2.3.8",
     "@types/node": "^24.10.1",
     "ajv": "^8.17.1",

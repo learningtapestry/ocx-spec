@@ -1,0 +1,10 @@
+{
+  "name": "Invalid Manifest",
+  "format": "invalid-format",
+  "contents": [
+    {
+      "name": "Missing required path field",
+      "type": "Lesson"
+    }
+  ]
+}

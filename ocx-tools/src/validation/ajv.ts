@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import ocxSchema from "../ocx.schema.json";
+import ocxSchema from "../ocx.schema.json" with { type: "json" };
 
 const ajv = new Ajv({ strict: false, allErrors: true });
 

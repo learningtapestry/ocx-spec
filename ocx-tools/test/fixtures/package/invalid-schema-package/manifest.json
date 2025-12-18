@@ -1,0 +1,10 @@
+{
+  "name": "Invalid Schema Package",
+  "format": "ocx@1.0.0",
+  "contents": [
+    {
+      "path": "invalid-course.json",
+      "type": "Course"
+    }
+  ]
+}

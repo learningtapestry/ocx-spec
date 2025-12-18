@@ -4,13 +4,7 @@ import Ajv, { type ErrorObject } from "ajv";
 import { describe, expect, it } from "vitest";
 
 const schemaPath = path.join(__dirname, "..", "src", "ocx.schema.json");
-const fixturesPath = path.join(
-  __dirname,
-  "..",
-  "fixtures",
-  "ocx",
-  "sample-course",
-);
+const fixturesPath = path.join(__dirname, "fixtures", "ocx", "sample-course");
 const schema = JSON.parse(readFileSync(schemaPath, "utf-8"));
 
 describe("OCX JSON Schema", () => {
