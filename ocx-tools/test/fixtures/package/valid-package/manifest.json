@@ -1,0 +1,17 @@
+{
+  "name": "Sample Course Package",
+  "description": "A valid OCX package for testing",
+  "format": "ocx@1.0.0",
+  "contents": [
+    {
+      "path": "course.json",
+      "name": "Sample Course",
+      "type": "Course"
+    },
+    {
+      "path": "lesson-grouping.json",
+      "name": "Lesson Grouping 1",
+      "type": "LessonGrouping"
+    }
+  ]
+}

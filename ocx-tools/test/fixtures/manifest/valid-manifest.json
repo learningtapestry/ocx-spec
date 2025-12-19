@@ -1,0 +1,22 @@
+{
+  "name": "Grade 1 ELA Unit 1",
+  "description": "A sample OCX package for Grade 1 English Language Arts",
+  "format": "ocx@1.0.0",
+  "contents": [
+    {
+      "path": "unit_01.ocx.json",
+      "name": "Unit 1 - Listening and Learning",
+      "type": "LessonGrouping"
+    },
+    {
+      "path": "lessons/lesson_01.ocx.json",
+      "name": "Lesson 1 - The Little Prince",
+      "description": "Students will learn about the novella The Little Prince",
+      "type": "Lesson"
+    },
+    {
+      "path": "activities/activity_01.ocx.json",
+      "type": "Activity"
+    }
+  ]
+}

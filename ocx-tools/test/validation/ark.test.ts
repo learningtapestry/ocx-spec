@@ -8,7 +8,6 @@ import ocx from "../../src/validation/ark";
 const fixturesPath = path.join(
   __dirname,
   "..",
-  "..",
   "fixtures",
   "ocx",
   "sample-course",

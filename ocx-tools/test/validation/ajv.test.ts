@@ -2,12 +2,11 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import ocxSchema from "../../src/ocx.schema.json";
+import ocxSchema from "../../src/ocx.schema.json" with { type: "json" };
 import validate from "../../src/validation/ajv";
 
 const fixturesPath = path.join(
   __dirname,
-  "..",
   "..",
   "fixtures",
   "ocx",

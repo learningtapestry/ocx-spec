@@ -44,16 +44,11 @@
             ]
           }
         },
-        "required": [
-          "path"
-        ],
+        "required": ["path"],
         "additionalProperties": false
       }
     }
   },
-  "required": [
-    "format",
-    "contents"
-  ],
+  "required": ["format", "contents"],
   "additionalProperties": false
 }
