@@ -7,17 +7,13 @@ This package provides TypeScript types, JSON schemas, and validators for the K-1
 ```
 ocx-tools/
 ├── src/
+│   ├── bin/                  # CLI programs
 │   ├── index.ts              # Main exports
-│   ├── cli.ts                # CLI entry point (ocx-validate)
-│   ├── validate-package.ts   # Package validation function
-│   ├── ocx.d.ts              # Auto-generated OCX entity types
-│   ├── ocx.schema.json       # Auto-generated JSON Schema
+│   ├── ocx.d.ts              # Auto-generated OCX entity TS types
+│   ├── ocx.schema.json       # Auto-generated OCX entity JSON Schema
 │   ├── manifest.d.ts         # Manifest types (manual)
 │   ├── manifest.schema.json  # Manifest JSON Schema (manual)
-│   └── validation/
-│       ├── ajv.ts            # AJV validator for OCX entities
-│       ├── ark.ts            # Auto-generated ArkType validators
-│       └── manifest-ajv.ts   # AJV validator for manifests
+│   └── validation/           # AJV, Ark, manifest and package validation
 ├── test/                     # Vitest tests
 ├── └── fixtures/                 # Test fixtures
 ├── ontology/                 # Source data for schema generation

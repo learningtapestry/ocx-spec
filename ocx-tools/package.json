@@ -82,27 +82,23 @@
   "homepage": "https://github.com/learningtapestry/ocx-spec/tree/main/ocx-tools",
   "dependencies": {
     "@zip.js/zip.js": "^2.7.54",
+    "ajv": "^8.17.1",
     "semver": "^7.7.2"
   },
   "devDependencies": {
     "@types/semver": "^7.7.0",
     "@biomejs/biome": "^2.3.8",
     "@types/node": "^24.10.1",
-    "ajv": "^8.17.1",
     "arktype": "^2.1.28",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15"
   },
   "peerDependencies": {
-    "ajv": "^8.17.1",
     "arktype": "^2.1.28"
   },
   "peerDependenciesMeta": {
     "arktype": {
-      "optional": true
-    },
-    "ajv": {
       "optional": true
     }
   }
