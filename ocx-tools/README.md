@@ -101,18 +101,31 @@ npx ocx-validate course.ocx.json lesson.ocx.json
 # Validate OCX packages (.ocx.zip)
 npx ocx-validate curriculum.ocx.zip
 
+# Validate references within packages
+npx ocx-validate --check-references curriculum.ocx.zip
+
 # Output results as JSON
 npx ocx-validate --json course.ocx.json
 
-# Mix files and packages
-npx ocx-validate course.ocx.json curriculum.ocx.zip
+# Combine flags
+npx ocx-validate --json --check-references curriculum.ocx.zip
 ```
 
-Package validation checks:
+### Validation Checks
+
+**OCX File Validation:**
+- File passes schema validation
+
+**Package Validation (always runs):**
 - Manifest exists and is valid
 - Format version is supported (`^1.0.0`)
-- All referenced files exist
+- All referenced files exist in the package
 - All OCX files pass schema validation
+- All `@id` values are unique (no duplicates)
+
+**Reference Validation (opt-in with `--check-references`):**
+- All `@link` references resolve to entities in the package
+- Referenced entity `@type` matches the link's declared type
 
 Exit code is 0 if all files are valid, 1 otherwise.
 
