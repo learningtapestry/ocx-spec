@@ -1,0 +1,23 @@
+{
+  "format": "ocx@1.0.0",
+  "name": "Valid References Test Package",
+  "description": "Test package with all @link references resolved",
+  "contents": [
+    {
+      "path": "course.json",
+      "type": "Course"
+    },
+    {
+      "path": "lesson-grouping.json",
+      "type": "LessonGrouping"
+    },
+    {
+      "path": "lesson.json",
+      "type": "Lesson"
+    },
+    {
+      "path": "activity.json",
+      "type": "Activity"
+    }
+  ]
+}

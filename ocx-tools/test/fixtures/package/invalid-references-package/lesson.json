@@ -1,0 +1,11 @@
+{
+  "@id": "urn:ocx:test-lesson-2",
+  "@type": "Lesson",
+  "identifier": "test-lesson-2",
+  "name": "Test Lesson",
+  "audience": ["Teacher"],
+  "author": "Test Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-01T00:00:00Z"
+}

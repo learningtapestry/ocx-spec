@@ -287,4 +287,84 @@ describe("ocx-validate CLI", () => {
       expect(stdout).toContain("✗");
     });
   });
+
+  describe("--check-references flag", () => {
+    it("includes flag in help text", async () => {
+      const { stdout, exitCode } = await runCli(["--help"]);
+
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("--check-references");
+      expect(stdout).toContain("Validate @link references");
+    });
+
+    it("validates package with all references resolved", async () => {
+      const validRefsPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "valid-references.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--check-references",
+        validRefsPackage,
+      ]);
+
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("✓");
+      expect(stdout).toContain("1/1 files valid");
+    });
+
+    it("detects unresolved references in package", async () => {
+      const invalidRefsPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "invalid-references.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--check-references",
+        invalidRefsPackage,
+      ]);
+
+      expect(exitCode).toBe(1);
+      expect(stdout).toContain("✗");
+      expect(stdout).toContain("[reference]");
+      expect(stdout).toContain("urn:ocx:missing-lg");
+    });
+
+    it("does not report reference errors without flag", async () => {
+      const invalidRefsPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "invalid-references.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([invalidRefsPackage]);
+
+      // Package should be valid when not checking references
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("✓");
+      expect(stdout).not.toContain("[reference]");
+    });
+
+    it("works with --json output", async () => {
+      const invalidRefsPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "invalid-references.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--json",
+        "--check-references",
+        invalidRefsPackage,
+      ]);
+
+      expect(exitCode).toBe(1);
+      const result = JSON.parse(stdout);
+      expect(result).toHaveLength(1);
+      expect(result[0].result.valid).toBe(false);
+      expect(
+        result[0].result.errors.some(
+          (e: { type: string }) => e.type === "reference",
+        ),
+      ).toBe(true);
+    });
+  });
 });

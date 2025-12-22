@@ -1,0 +1,15 @@
+{
+  "@id": "urn:ocx:test-course-3",
+  "@type": "Course",
+  "identifier": "test-course-3",
+  "name": "Test Course with Type Mismatch",
+  "description": "Test course with type mismatch in reference",
+  "audience": ["Teacher"],
+  "author": "Test Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-01T00:00:00Z",
+  "hasPart": [
+    { "link": { "@id": "urn:ocx:lesson-1", "@type": "LessonGrouping" } }
+  ]
+}

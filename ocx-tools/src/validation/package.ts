@@ -8,7 +8,7 @@ import validateManifest from "./manifest-ajv.js";
 export const SUPPORTED_FORMAT_RANGE = "^1.0.0";
 
 export interface ValidationError {
-  type: "manifest" | "file" | "schema" | "version";
+  type: "manifest" | "file" | "schema" | "version" | "reference" | "duplicate";
   path?: string;
   message: string;
   details?: unknown;
@@ -17,6 +17,10 @@ export interface ValidationError {
 export interface ValidationResult {
   valid: boolean;
   errors: ValidationError[];
+}
+
+export interface PackageValidationOptions {
+  checkReferences?: boolean;
 }
 
 async function readZipEntries(
@@ -47,8 +51,225 @@ function extractVersion(format: string): string | null {
   return match?.[1] ?? null;
 }
 
+interface OcxReference {
+  id: string;
+  type: string;
+  property: string;
+  sourcePath: string;
+}
+
+interface ParsedEntity {
+  path: string;
+  data: unknown;
+  id?: string;
+  type?: string;
+}
+
+/**
+ * Parses all OCX files in the package.
+ * Returns parsed entities and any parse errors encountered.
+ */
+async function parseOcxFiles(
+  files: Map<string, () => Promise<string>>,
+  manifest: Manifest,
+): Promise<{ entities: ParsedEntity[]; errors: ValidationError[] }> {
+  const entities: ParsedEntity[] = [];
+  const errors: ValidationError[] = [];
+
+  for (const entry of manifest.contents) {
+    // Only process OCX JSON files
+    if (!entry.path.endsWith(".ocx.json") && !entry.path.endsWith(".json")) {
+      continue;
+    }
+
+    const getFile = files.get(entry.path);
+    if (!getFile) {
+      continue; // File not found - already handled by file validation
+    }
+
+    try {
+      const content = await getFile();
+      const data = JSON.parse(content);
+
+      // Build entity object with optional properties
+      const entity: ParsedEntity = { path: entry.path, data };
+
+      // Extract @id and @type if they exist
+      if (data && typeof data === "object") {
+        if ("@id" in data && typeof data["@id"] === "string") {
+          entity.id = data["@id"];
+        }
+        if ("@type" in data && typeof data["@type"] === "string") {
+          entity.type = data["@type"];
+        }
+      }
+
+      entities.push(entity);
+    } catch (err) {
+      errors.push({
+        type: "schema",
+        path: entry.path,
+        message: `Failed to parse ${entry.path}: ${err instanceof Error ? err.message : String(err)}`,
+      });
+    }
+  }
+
+  return { entities, errors };
+}
+
+/**
+ * Extracts all @link references from an OCX entity.
+ * Schema validation has already ensured @link structure is valid.
+ */
+function extractReferences(entity: unknown, filePath: string): OcxReference[] {
+  const references: OcxReference[] = [];
+
+  if (!entity || typeof entity !== "object") {
+    return references;
+  }
+
+  // Properties that can contain @link references
+  const linkProperties = [
+    "hasPart",
+    "hasEducationalAlignment",
+    "usesRoutine",
+    "uses",
+    "hasDependency",
+    "references",
+    "mutuallyExclusiveWith",
+    "hasChild",
+  ];
+
+  for (const propName of linkProperties) {
+    const propValue = (entity as Record<string, unknown>)[propName];
+
+    if (Array.isArray(propValue)) {
+      for (const item of propValue) {
+        if (
+          item &&
+          typeof item === "object" &&
+          "link" in item &&
+          typeof item.link === "object" &&
+          item.link !== null
+        ) {
+          const link = item.link as { "@id"?: unknown; "@type"?: unknown };
+          if (
+            typeof link["@id"] === "string" &&
+            typeof link["@type"] === "string"
+          ) {
+            references.push({
+              id: link["@id"],
+              type: link["@type"],
+              property: propName,
+              sourcePath: filePath,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  return references;
+}
+
+/**
+ * Validates that all entity @id values in the package are unique.
+ */
+function validateUniqueIds(entities: ParsedEntity[]): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const idToFiles = new Map<string, string[]>();
+
+  for (const entity of entities) {
+    if (entity.id) {
+      const filesWithId = idToFiles.get(entity.id) ?? [];
+      filesWithId.push(entity.path);
+      idToFiles.set(entity.id, filesWithId);
+    }
+  }
+
+  // Check for duplicates
+  for (const [id, files] of idToFiles.entries()) {
+    if (files.length > 1) {
+      errors.push({
+        type: "duplicate",
+        message: `Duplicate @id "${id}" found in multiple files: ${files.join(", ")}`,
+        details: {
+          duplicateId: id,
+          files: files,
+        },
+      });
+    }
+  }
+
+  return errors;
+}
+
+/**
+ * Builds an index of all entity @id and @type values present in the package.
+ */
+function buildEntityIndex(entities: ParsedEntity[]): Map<string, string> {
+  const entityIndex = new Map<string, string>();
+
+  for (const entity of entities) {
+    if (entity.id && entity.type) {
+      entityIndex.set(entity.id, entity.type);
+    }
+  }
+
+  return entityIndex;
+}
+
+/**
+ * Validates that all @link references resolve to entities within the package.
+ */
+function validateReferences(entities: ParsedEntity[]): ValidationError[] {
+  const errors: ValidationError[] = [];
+
+  // Build index of all entity IDs in the package
+  const entityIndex = buildEntityIndex(entities);
+
+  // Extract and validate all references
+  for (const entity of entities) {
+    const references = extractReferences(entity.data, entity.path);
+
+    for (const ref of references) {
+      const actualType = entityIndex.get(ref.id);
+
+      if (!actualType) {
+        // Reference @id does not exist in package
+        errors.push({
+          type: "reference",
+          path: entity.path,
+          message: `Unresolved reference to @id "${ref.id}" of type "${ref.type}" in property "${ref.property}"`,
+          details: {
+            referenceId: ref.id,
+            referenceType: ref.type,
+            property: ref.property,
+          },
+        });
+      } else if (actualType !== ref.type) {
+        // Reference @id exists but @type doesn't match
+        errors.push({
+          type: "reference",
+          path: entity.path,
+          message: `Type mismatch for @id "${ref.id}": expected "${ref.type}" but found "${actualType}" in property "${ref.property}"`,
+          details: {
+            referenceId: ref.id,
+            expectedType: ref.type,
+            actualType: actualType,
+            property: ref.property,
+          },
+        });
+      }
+    }
+  }
+
+  return errors;
+}
+
 export async function validatePackage(
   zipPath: string,
+  options?: PackageValidationOptions,
 ): Promise<ValidationResult> {
   const errors: ValidationError[] = [];
 
@@ -125,7 +346,7 @@ export async function validatePackage(
     });
   }
 
-  // Check all referenced files exist and validate OCX files
+  // Check all referenced files exist
   for (const entry of manifest.contents) {
     const getFile = files.get(entry.path);
 
@@ -135,31 +356,36 @@ export async function validatePackage(
         path: entry.path,
         message: `Referenced file not found: ${entry.path}`,
       });
-      continue;
     }
+  }
 
-    // Validate OCX files against schema
-    if (entry.path.endsWith(".ocx.json") || entry.path.endsWith(".json")) {
-      try {
-        const content = await getFile();
-        const data = JSON.parse(content);
+  // Parse all OCX files in a single pass
+  const { entities, errors: parseErrors } = await parseOcxFiles(
+    files,
+    manifest,
+  );
+  errors.push(...parseErrors);
 
-        if (!validateOcx(data)) {
-          errors.push({
-            type: "schema",
-            path: entry.path,
-            message: `Invalid OCX file: ${entry.path}`,
-            details: validateOcx.errors,
-          });
-        }
-      } catch (err) {
-        errors.push({
-          type: "schema",
-          path: entry.path,
-          message: `Failed to parse ${entry.path}: ${err instanceof Error ? err.message : String(err)}`,
-        });
-      }
+  // Validate OCX files against schema
+  for (const entity of entities) {
+    if (!validateOcx(entity.data)) {
+      errors.push({
+        type: "schema",
+        path: entity.path,
+        message: `Invalid OCX file: ${entity.path}`,
+        details: validateOcx.errors,
+      });
     }
+  }
+
+  // Validate unique @id values (always runs)
+  const duplicateErrors = validateUniqueIds(entities);
+  errors.push(...duplicateErrors);
+
+  // Validate references if requested
+  if (options?.checkReferences) {
+    const refErrors = validateReferences(entities);
+    errors.push(...refErrors);
   }
 
   return {

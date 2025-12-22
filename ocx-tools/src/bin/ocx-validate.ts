@@ -8,18 +8,22 @@ import {
 
 interface CliOptions {
   json: boolean;
+  checkReferences: boolean;
   files: string[];
 }
 
 function parseArgs(args: string[]): CliOptions {
   const options: CliOptions = {
     json: false,
+    checkReferences: false,
     files: [],
   };
 
   for (const arg of args) {
     if (arg === "--json") {
       options.json = true;
+    } else if (arg === "--check-references") {
+      options.checkReferences = true;
     } else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -41,14 +45,16 @@ Arguments:
   file    One or more .ocx.json or .ocx.zip files to validate
 
 Options:
-  --json  Output results as JSON
-  --help  Show this help message
+  --json               Output results as JSON
+  --check-references   Validate @link references within packages (packages only)
+  --help               Show this help message
 
 Examples:
   ocx-validate course.ocx.json
   ocx-validate lesson.ocx.json activity.ocx.json
   ocx-validate curriculum.ocx.zip
   ocx-validate --json course.ocx.json
+  ocx-validate --check-references curriculum.ocx.zip
 `);
 }
 
@@ -83,7 +89,9 @@ async function main(): Promise<void> {
     let result: ValidationResult;
 
     if (file.endsWith(".ocx.zip")) {
-      result = await validatePackage(file);
+      result = await validatePackage(file, {
+        checkReferences: options.checkReferences,
+      });
     } else if (file.endsWith(".ocx.json") || file.endsWith(".json")) {
       result = await validateOcxFile(file);
     } else {

@@ -1,0 +1,15 @@
+{
+  "format": "ocx@1.0.0",
+  "name": "Type Mismatch Test Package",
+  "description": "Test package with @link reference type mismatch",
+  "contents": [
+    {
+      "path": "course.json",
+      "type": "Course"
+    },
+    {
+      "path": "lesson.json",
+      "type": "Lesson"
+    }
+  ]
+}

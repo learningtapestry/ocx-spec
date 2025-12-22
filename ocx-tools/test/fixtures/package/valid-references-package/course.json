@@ -1,0 +1,15 @@
+{
+  "@id": "urn:ocx:test-course-1",
+  "@type": "Course",
+  "identifier": "test-course-1",
+  "name": "Test Course",
+  "description": "Test course with valid references",
+  "audience": ["Teacher"],
+  "author": "Test Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-01T00:00:00Z",
+  "hasPart": [
+    { "link": { "@id": "urn:ocx:test-lg-1", "@type": "LessonGrouping" } }
+  ]
+}

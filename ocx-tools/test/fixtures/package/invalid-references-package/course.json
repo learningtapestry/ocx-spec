@@ -1,0 +1,15 @@
+{
+  "@id": "urn:ocx:test-course-2",
+  "@type": "Course",
+  "identifier": "test-course-2",
+  "name": "Test Course with Broken References",
+  "description": "Test course with broken references",
+  "audience": ["Teacher"],
+  "author": "Test Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-01T00:00:00Z",
+  "hasPart": [
+    { "link": { "@id": "urn:ocx:missing-lg", "@type": "LessonGrouping" } }
+  ]
+}

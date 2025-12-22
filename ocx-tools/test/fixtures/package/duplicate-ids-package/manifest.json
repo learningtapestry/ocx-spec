@@ -1,0 +1,15 @@
+{
+  "format": "ocx@1.0.0",
+  "name": "Duplicate IDs Test Package",
+  "description": "Test package with duplicate @id values",
+  "contents": [
+    {
+      "path": "course.json",
+      "type": "Course"
+    },
+    {
+      "path": "lesson.json",
+      "type": "Lesson"
+    }
+  ]
+}

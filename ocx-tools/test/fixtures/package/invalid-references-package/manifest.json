@@ -1,0 +1,15 @@
+{
+  "format": "ocx@1.0.0",
+  "name": "Invalid References Test Package",
+  "description": "Test package with unresolved @link references",
+  "contents": [
+    {
+      "path": "course.json",
+      "type": "Course"
+    },
+    {
+      "path": "lesson.json",
+      "type": "Lesson"
+    }
+  ]
+}

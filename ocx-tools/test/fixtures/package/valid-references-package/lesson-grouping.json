@@ -1,0 +1,13 @@
+{
+  "@id": "urn:ocx:test-lg-1",
+  "@type": "LessonGrouping",
+  "identifier": "test-lg-1",
+  "groupLevel": 1,
+  "groupName": "Test Unit",
+  "audience": ["Teacher"],
+  "author": "Test Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-01T00:00:00Z",
+  "hasPart": [{ "link": { "@id": "urn:ocx:test-lesson-1", "@type": "Lesson" } }]
+}

@@ -1,0 +1,11 @@
+{
+  "@id": "urn:ocx:duplicate-id",
+  "@type": "Lesson",
+  "identifier": "test-lesson",
+  "name": "Test Lesson",
+  "audience": ["Teacher"],
+  "author": "Test Author",
+  "license": "CC-BY",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-01T00:00:00Z"
+}
