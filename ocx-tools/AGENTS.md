@@ -8,6 +8,7 @@ This package provides TypeScript types, JSON schemas, and validators for the K-1
 ocx-tools/
 ├── src/
 │   ├── bin/                  # CLI programs
+│   ├── formats/              # Format-specific validators (lmsActivity, etc.)
 │   ├── index.ts              # Main exports
 │   ├── ocx.d.ts              # Auto-generated OCX entity TS types
 │   ├── ocx.schema.json       # Auto-generated OCX entity JSON Schema
@@ -15,7 +16,7 @@ ocx-tools/
 │   ├── manifest.schema.json  # Manifest JSON Schema (manual)
 │   └── validation/           # AJV, Ark, manifest and package validation
 ├── test/                     # Vitest tests
-├── └── fixtures/                 # Test fixtures
+├── └── fixtures/             # Test fixtures
 ├── ontology/                 # Source data for schema generation
 │   ├── entities.json         # Entity definitions
 │   ├── extensions.json       # Extensions (new entities and entity property extensions)
@@ -107,6 +108,12 @@ ocx-validate course.ocx.json lesson.ocx.json
 # Validate OCX packages (.ocx.zip)
 ocx-validate curriculum.ocx.zip
 
+# Validate with reference checking
+ocx-validate --check-references curriculum.ocx.zip
+
+# Validate Representation content (e.g., lmsActivity files)
+ocx-validate --validate-content curriculum.ocx.zip
+
 # Output as JSON
 ocx-validate --json course.ocx.json
 ```
@@ -123,3 +130,5 @@ The OCX specification is documented in `../docs/`:
 - `01_ontology.md` - Conceptual model
 - `02_binding.md` - JSON binding rules
 - `03_packaging.md` - Package format (manifest)
+- `04_extensions.md` - OCX-specific extensions (Representation)
+- `05_representation_formats.md` - Format-specific content schemas (lmsActivity)

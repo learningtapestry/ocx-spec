@@ -1,0 +1,12 @@
+{
+  "name": "LMS Activity Invalid Content Package",
+  "description": "An OCX package with invalid LMS Activity content",
+  "format": "ocx@1.0.0",
+  "contents": [
+    {
+      "path": "material.json",
+      "name": "Material with Invalid LMS Activity",
+      "type": "Material"
+    }
+  ]
+}

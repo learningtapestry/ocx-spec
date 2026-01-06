@@ -158,6 +158,98 @@ describe("validatePackage", () => {
       expect(refError?.details).toHaveProperty("actualType", "Lesson");
     });
   });
+
+  describe("content validation", () => {
+    it("validates valid LMS Activity content when flag is set", async () => {
+      const result = await validatePackage(
+        path.join(fixturesPath, "package", "lms-activity-valid.ocx.zip"),
+        { validateContent: true },
+      );
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
+
+    it("detects invalid LMS Activity content", async () => {
+      const result = await validatePackage(
+        path.join(
+          fixturesPath,
+          "package",
+          "lms-activity-invalid-content.ocx.zip",
+        ),
+        { validateContent: true },
+      );
+
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.type === "content")).toBe(true);
+      const contentError = result.errors.find((e) => e.type === "content");
+      expect(contentError?.message).toContain(
+        "application/vnd.ocx.lmsActivity+json",
+      );
+      expect(contentError?.details).toHaveProperty("validationErrors");
+    });
+
+    it("detects missing LMS Activity content file", async () => {
+      const result = await validatePackage(
+        path.join(fixturesPath, "package", "lms-activity-missing-file.ocx.zip"),
+        { validateContent: true },
+      );
+
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.type === "content")).toBe(true);
+      const contentError = result.errors.find((e) => e.type === "content");
+      expect(contentError?.message).toContain("not found");
+      expect(contentError?.message).toContain("missing-quiz.lmsActivity.json");
+    });
+
+    it("skips content validation when flag is not set", async () => {
+      const result = await validatePackage(
+        path.join(
+          fixturesPath,
+          "package",
+          "lms-activity-invalid-content.ocx.zip",
+        ),
+        { validateContent: false },
+      );
+
+      // Should not report content errors when flag is off
+      expect(result.errors.some((e) => e.type === "content")).toBe(false);
+    });
+
+    it("skips content validation when options not provided", async () => {
+      const result = await validatePackage(
+        path.join(
+          fixturesPath,
+          "package",
+          "lms-activity-invalid-content.ocx.zip",
+        ),
+      );
+
+      // Should not report content errors when options omitted
+      expect(result.errors.some((e) => e.type === "content")).toBe(false);
+    });
+
+    it("includes correct error details for content validation failures", async () => {
+      const result = await validatePackage(
+        path.join(
+          fixturesPath,
+          "package",
+          "lms-activity-invalid-content.ocx.zip",
+        ),
+        { validateContent: true },
+      );
+
+      const contentError = result.errors.find((e) => e.type === "content");
+      expect(contentError).toBeDefined();
+      expect(contentError?.path).toBe("activities/quiz.lmsActivity.json");
+      expect(contentError?.details).toHaveProperty("representationId");
+      expect(contentError?.details).toHaveProperty(
+        "encodingFormat",
+        "application/vnd.ocx.lmsActivity+json",
+      );
+      expect(contentError?.details).toHaveProperty("parentPath");
+    });
+  });
 });
 
 describe("validateOcxFile", () => {

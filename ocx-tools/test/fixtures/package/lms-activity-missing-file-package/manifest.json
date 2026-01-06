@@ -1,0 +1,12 @@
+{
+  "name": "LMS Activity Missing File Package",
+  "description": "An OCX package with missing LMS Activity file",
+  "format": "ocx@1.0.0",
+  "contents": [
+    {
+      "path": "material.json",
+      "name": "Material with Missing LMS Activity",
+      "type": "Material"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import {
 interface CliOptions {
   json: boolean;
   checkReferences: boolean;
+  validateContent: boolean;
   files: string[];
 }
 
@@ -16,6 +17,7 @@ function parseArgs(args: string[]): CliOptions {
   const options: CliOptions = {
     json: false,
     checkReferences: false,
+    validateContent: false,
     files: [],
   };
 
@@ -24,6 +26,8 @@ function parseArgs(args: string[]): CliOptions {
       options.json = true;
     } else if (arg === "--check-references") {
       options.checkReferences = true;
+    } else if (arg === "--validate-content") {
+      options.validateContent = true;
     } else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -47,6 +51,7 @@ Arguments:
 Options:
   --json               Output results as JSON
   --check-references   Validate @link references within packages (packages only)
+  --validate-content   Validate Representation content files (packages only)
   --help               Show this help message
 
 Examples:
@@ -55,6 +60,7 @@ Examples:
   ocx-validate curriculum.ocx.zip
   ocx-validate --json course.ocx.json
   ocx-validate --check-references curriculum.ocx.zip
+  ocx-validate --validate-content curriculum.ocx.zip
 `);
 }
 
@@ -110,6 +116,7 @@ async function main(): Promise<void> {
     if (file.endsWith(".ocx.zip")) {
       result = await validatePackage(file, {
         checkReferences: options.checkReferences,
+        validateContent: options.validateContent,
       });
     } else if (file.endsWith(".ocx.json") || file.endsWith(".json")) {
       result = await validateOcxFile(file);

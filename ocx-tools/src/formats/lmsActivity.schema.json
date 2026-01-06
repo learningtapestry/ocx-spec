@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "lmsActivity.schema.json",
+  "title": "LMS Activity",
+  "description": "Minimal activity metadata for LMS systems. Used as the content format for Representations with encodingFormat 'application/vnd.ocx.lmsActivity+json'.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the LMS activity"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the LMS activity"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

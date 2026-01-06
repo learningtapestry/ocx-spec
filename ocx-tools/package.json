@@ -11,7 +11,7 @@
     "ocx-validate": "./dist/bin/ocx-validate.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.dist.json && cp src/*{.d.ts,.schema.json} dist/ && chmod +x ./dist/bin/ocx-validate.js",
+    "build": "tsc -p tsconfig.dist.json && cp src/*{.d.ts,.schema.json} dist/ && mkdir -p dist/formats && cp src/formats/*.schema.json src/formats/*.d.ts dist/formats/ && chmod +x ./dist/bin/ocx-validate.js",
     "clean": "rm -rf dist",
     "format": "biome format --write",
     "lint": "biome check",
@@ -65,7 +65,28 @@
       "types": "./dist/validation/package.d.ts",
       "import": "./dist/validation/package.js",
       "default": "./dist/validation/package.js"
-    }
+    },
+    "./formats": {
+      "types": "./dist/formats/index.d.ts",
+      "import": "./dist/formats/index.js",
+      "default": "./dist/formats/index.js"
+    },
+    "./formats/lmsActivity": {
+      "types": "./dist/formats/lmsActivity.d.ts",
+      "import": "./dist/formats/lmsActivity.d.ts",
+      "default": "./dist/formats/lmsActivity.d.ts"
+    },
+    "./formats/lmsActivity-ajv": {
+      "types": "./dist/formats/lmsActivity-ajv.d.ts",
+      "import": "./dist/formats/lmsActivity-ajv.js",
+      "default": "./dist/formats/lmsActivity-ajv.js"
+    },
+    "./formats/lmsActivity-ark": {
+      "types": "./dist/formats/lmsActivity-ark.d.ts",
+      "import": "./dist/formats/lmsActivity-ark.js",
+      "default": "./dist/formats/lmsActivity-ark.js"
+    },
+    "./formats/lmsActivity.schema.json": "./dist/formats/lmsActivity.schema.json"
   },
   "sideEffects": false,
   "engines": {

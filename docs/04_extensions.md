@@ -36,6 +36,10 @@ Representations are always embedded within a Material's `hasRepresentation` arra
 | dateCreated | DateTime | MAY | When this representation was created |
 | dateModified | DateTime | MAY | When this representation was last modified |
 
+### Content Validation
+
+When a Representation's `encodingFormat` matches a registered format validator, the content at `accessResource` can be validated during package validation. See [05_representation_formats.md](05_representation_formats.md) for supported formats.
+
 ### Example
 
 ```json

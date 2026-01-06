@@ -448,4 +448,117 @@ describe("ocx-validate CLI", () => {
       ).toBe(true);
     });
   });
+
+  describe("--validate-content flag", () => {
+    it("includes flag in help text", async () => {
+      const { stdout, exitCode } = await runCli(["--help"]);
+
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("--validate-content");
+      expect(stdout).toContain("Validate Representation content");
+    });
+
+    it("validates package with valid LMS Activity content", async () => {
+      const validPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "lms-activity-valid.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--validate-content",
+        validPackage,
+      ]);
+
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("✓");
+      expect(stdout).toContain("1/1 files valid");
+    });
+
+    it("detects invalid LMS Activity content", async () => {
+      const invalidPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "lms-activity-invalid-content.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--validate-content",
+        invalidPackage,
+      ]);
+
+      expect(exitCode).toBe(1);
+      expect(stdout).toContain("✗");
+      expect(stdout).toContain("[content]");
+      expect(stdout).toContain("application/vnd.ocx.lmsActivity+json");
+    });
+
+    it("detects missing LMS Activity content file", async () => {
+      const missingFilePackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "lms-activity-missing-file.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--validate-content",
+        missingFilePackage,
+      ]);
+
+      expect(exitCode).toBe(1);
+      expect(stdout).toContain("✗");
+      expect(stdout).toContain("[content]");
+      expect(stdout).toContain("not found");
+    });
+
+    it("does not report content errors without flag", async () => {
+      const invalidPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "lms-activity-invalid-content.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([invalidPackage]);
+
+      // Package should be valid when not checking content
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("✓");
+      expect(stdout).not.toContain("[content]");
+    });
+
+    it("works with --json output", async () => {
+      const invalidPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "lms-activity-invalid-content.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--json",
+        "--validate-content",
+        invalidPackage,
+      ]);
+
+      expect(exitCode).toBe(1);
+      const result = JSON.parse(stdout);
+      expect(result).toHaveLength(1);
+      expect(result[0].result.valid).toBe(false);
+      expect(
+        result[0].result.errors.some(
+          (e: { type: string }) => e.type === "content",
+        ),
+      ).toBe(true);
+    });
+
+    it("can combine with --check-references", async () => {
+      const validPackage = path.join(
+        FIXTURES_PATH,
+        "package",
+        "lms-activity-valid.ocx.zip",
+      );
+      const { stdout, exitCode } = await runCli([
+        "--check-references",
+        "--validate-content",
+        validPackage,
+      ]);
+
+      expect(exitCode).toBe(0);
+      expect(stdout).toContain("✓");
+    });
+  });
 });

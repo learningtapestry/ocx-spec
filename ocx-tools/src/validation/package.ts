@@ -1,14 +1,31 @@
 import { readFile } from "node:fs/promises";
 import { BlobReader, TextWriter, ZipReader } from "@zip.js/zip.js";
+import type { ValidateFunction } from "ajv";
 import { satisfies } from "semver";
+import validateLmsActivity from "../formats/lmsActivity-ajv.js";
 import type { Manifest } from "../manifest.js";
 import validateOcx from "./ajv.js";
 import validateManifest from "./manifest-ajv.js";
 
+/**
+ * Registry of content validators for specific MIME types.
+ * Maps encodingFormat MIME type to a validator function.
+ */
+const contentValidators = new Map<string, ValidateFunction>([
+  ["application/vnd.ocx.lmsActivity+json", validateLmsActivity],
+]);
+
 export const SUPPORTED_FORMAT_RANGE = "^1.0.0";
 
 export interface ValidationError {
-  type: "manifest" | "file" | "schema" | "version" | "reference" | "duplicate";
+  type:
+    | "manifest"
+    | "file"
+    | "schema"
+    | "version"
+    | "reference"
+    | "duplicate"
+    | "content";
   path?: string;
   message: string;
   details?: unknown;
@@ -21,6 +38,7 @@ export interface ValidationResult {
 
 export interface PackageValidationOptions {
   checkReferences?: boolean;
+  validateContent?: boolean;
 }
 
 async function readZipEntries(
@@ -267,6 +285,119 @@ function validateReferences(entities: ParsedEntity[]): ValidationError[] {
   return errors;
 }
 
+interface RepresentationInfo {
+  id: string;
+  encodingFormat: string;
+  accessResource: string;
+  parentPath: string;
+}
+
+/**
+ * Extracts all Representations from Material entities in the package.
+ */
+function extractRepresentations(
+  entities: ParsedEntity[],
+): RepresentationInfo[] {
+  const representations: RepresentationInfo[] = [];
+
+  for (const entity of entities) {
+    const data = entity.data as Record<string, unknown>;
+    if (
+      data["@type"] !== "Material" ||
+      !Array.isArray(data.hasRepresentation)
+    ) {
+      continue;
+    }
+
+    for (const rep of data.hasRepresentation) {
+      if (
+        rep &&
+        typeof rep === "object" &&
+        "@type" in rep &&
+        rep["@type"] === "Representation" &&
+        typeof rep.encodingFormat === "string" &&
+        typeof rep.accessResource === "string"
+      ) {
+        representations.push({
+          id: (rep["@id"] as string) ?? "unknown",
+          encodingFormat: rep.encodingFormat,
+          accessResource: rep.accessResource,
+          parentPath: entity.path,
+        });
+      }
+    }
+  }
+
+  return representations;
+}
+
+/**
+ * Validates content of Representation files that have registered validators.
+ */
+async function validateRepresentationContent(
+  files: Map<string, () => Promise<string>>,
+  representations: RepresentationInfo[],
+): Promise<ValidationError[]> {
+  const errors: ValidationError[] = [];
+
+  for (const rep of representations) {
+    const validator = contentValidators.get(rep.encodingFormat);
+    if (!validator) {
+      // No validator registered for this MIME type - skip
+      continue;
+    }
+
+    const getFile = files.get(rep.accessResource);
+    if (!getFile) {
+      errors.push({
+        type: "content",
+        path: rep.accessResource,
+        message: `Content file not found for Representation "${rep.id}": ${rep.accessResource}`,
+        details: {
+          representationId: rep.id,
+          encodingFormat: rep.encodingFormat,
+          parentPath: rep.parentPath,
+        },
+      });
+      continue;
+    }
+
+    let content: unknown;
+    try {
+      const rawContent = await getFile();
+      content = JSON.parse(rawContent);
+    } catch (err) {
+      errors.push({
+        type: "content",
+        path: rep.accessResource,
+        message: `Failed to parse content file for Representation "${rep.id}": ${err instanceof Error ? err.message : String(err)}`,
+        details: {
+          representationId: rep.id,
+          encodingFormat: rep.encodingFormat,
+          parentPath: rep.parentPath,
+        },
+      });
+      continue;
+    }
+
+    if (!validator(content)) {
+      errors.push({
+        type: "content",
+        path: rep.accessResource,
+        message: `Invalid content for Representation "${rep.id}" (${rep.encodingFormat})`,
+        details: {
+          representationId: rep.id,
+          encodingFormat: rep.encodingFormat,
+          parentPath: rep.parentPath,
+          validationErrors: validator.errors,
+        },
+      });
+    }
+  }
+
+  return errors;
+}
+
 export async function validatePackage(
   zipPath: string,
   options?: PackageValidationOptions,
@@ -386,6 +517,16 @@ export async function validatePackage(
   if (options?.checkReferences) {
     const refErrors = validateReferences(entities);
     errors.push(...refErrors);
+  }
+
+  // Validate Representation content if requested
+  if (options?.validateContent) {
+    const representations = extractRepresentations(entities);
+    const contentErrors = await validateRepresentationContent(
+      files,
+      representations,
+    );
+    errors.push(...contentErrors);
   }
 
   return {

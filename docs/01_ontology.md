@@ -16,3 +16,7 @@ While the core entities are the same as the ones in the Knowledge Graph, we deco
 ## OCX Extensions to the Knowledge Graph
 
 See [04_extensions.md](04_extensions.md) for OCX-specific extensions including Representation.
+
+## Representation Formats
+
+See [05_representation_formats.md](05_representation_formats.md) for format-specific validation of content referenced by Representations.

@@ -12,6 +12,10 @@ This specification comprises the following features:
 
 - [03_packaging.md](docs/03_packaging.md) - A packaging format for OCX JSON files, allowing one to transfer OCX bundles that can represent entire curricula.
 
+- [04_extensions.md](docs/04_extensions.md) - OCX-specific extensions to the ontology, including Representation.
+
+- [05_representation_formats.md](docs/05_representation_formats.md) - Format-specific schemas for content referenced by Representations.
+
 In addition, we provide:
 
 - [examples](examples/README.md) - Examples for OCX data.
