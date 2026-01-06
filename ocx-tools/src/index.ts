@@ -12,6 +12,7 @@ export type {
   OcxEntity,
   OcxEntityType,
   OcxLink,
+  Representation,
   StandardsFramework,
   StandardsFrameworkItem,
 } from "./ocx";

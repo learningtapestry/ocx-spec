@@ -1,0 +1,45 @@
+{
+  "@id": "urn:ocx:material-with-representations",
+  "@type": "Material",
+  "identifier": "material-with-representations",
+  "name": "Variables Worksheet",
+  "audience": ["Student"],
+  "author": "Curriculum Author",
+  "license": "CC-BY",
+  "content": "A worksheet about variables and expressions.",
+  "materialType": "Individual",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-02-01T00:00:00Z",
+  "hasRepresentation": [
+    {
+      "@id": "urn:ocx:rep-docx",
+      "@type": "Representation",
+      "identifier": "variables-worksheet.docx",
+      "encodingFormat": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "accessResource": "assets/worksheets/variables-worksheet.docx",
+      "isOcxGenerated": false,
+      "lmsLoadingGuidance": "Not Recommended"
+    },
+    {
+      "@id": "urn:ocx:rep-pdf",
+      "@type": "Representation",
+      "identifier": "variables-worksheet.pdf",
+      "encodingFormat": "application/pdf",
+      "accessResource": "assets/worksheets/variables-worksheet.pdf",
+      "preferred": true,
+      "isOcxGenerated": true,
+      "lmsLoadingGuidance": "Recommended"
+    },
+    {
+      "@id": "urn:ocx:rep-pdf-es",
+      "@type": "Representation",
+      "identifier": "variables-worksheet-es.pdf",
+      "encodingFormat": "application/pdf",
+      "accessResource": "assets/worksheets/variables-worksheet-es.pdf",
+      "isOcxGenerated": true,
+      "lmsLoadingGuidance": "Optional",
+      "inLanguage": "es-US",
+      "name": "Spanish PDF"
+    }
+  ]
+}

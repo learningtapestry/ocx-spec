@@ -1,0 +1,102 @@
+{
+  "entities": [
+    {
+      "entity": "Representation",
+      "label": "Representation",
+      "definition": "A digital or physical media object that embodies a specific version, format, or instance of a Material, making it accessible or consumable by users.",
+      "properties": {
+        "identifier": {
+          "description": "The identifier of the item, either as textual strings or as URL (URI) links.",
+          "type": "String",
+          "include": "MUST",
+          "cardinality": "1",
+          "source": "Schema.org"
+        },
+        "encodingFormat": {
+          "description": "MIME type of the representation (e.g., 'application/pdf', 'text/html').",
+          "type": "String",
+          "include": "MUST",
+          "cardinality": "1",
+          "source": "Schema.org"
+        },
+        "accessResource": {
+          "description": "URL, path, or inline content providing access to the resource.",
+          "type": "String",
+          "include": "MUST",
+          "cardinality": "1",
+          "source": "CZI"
+        },
+        "preferred": {
+          "description": "TRUE if this is the preferred representation among multiple formats.",
+          "type": "Boolean",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "CZI"
+        },
+        "isOcxGenerated": {
+          "description": "TRUE if generated during OCX packaging, FALSE if from source system.",
+          "type": "Boolean",
+          "include": "SHOULD",
+          "cardinality": "0..1",
+          "source": "CZI"
+        },
+        "lmsLoadingGuidance": {
+          "description": "Vendor guidance on whether this representation should be loaded into an LMS.",
+          "type": "lmsLoadingGuidanceENUM",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "CZI"
+        },
+        "name": {
+          "description": "Name of the representation (e.g., 'Spanish PDF').",
+          "type": "String",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "Schema.org"
+        },
+        "description": {
+          "description": "Description of the representation.",
+          "type": "String",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "Schema.org"
+        },
+        "inLanguage": {
+          "description": "Language of this representation, if different from the parent Material.",
+          "type": "LanguageENUM",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "Schema.org"
+        },
+        "dateCreated": {
+          "description": "When this representation was created.",
+          "type": "Datetime",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "Schema.org"
+        },
+        "dateModified": {
+          "description": "When this representation was last modified.",
+          "type": "Datetime",
+          "include": "MAY",
+          "cardinality": "0..1",
+          "source": "Schema.org"
+        }
+      },
+      "subclassOf": "",
+      "extensionOf": "",
+      "isPartOf": []
+    }
+  ],
+  "entityExtensions": {
+    "Material": {
+      "hasRepresentation": {
+        "description": "Links to one or more Representation objects that provide access to the Material in different formats.",
+        "type": "Representation",
+        "include": "MAY",
+        "cardinality": "0..n",
+        "source": "CZI"
+      }
+    }
+  }
+}

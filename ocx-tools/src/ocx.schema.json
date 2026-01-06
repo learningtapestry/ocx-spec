@@ -35,6 +35,9 @@
     },
     {
       "$ref": "#/definitions/StandardsFrameworkItem"
+    },
+    {
+      "$ref": "#/definitions/Representation"
     }
   ],
   "definitions": {
@@ -59,7 +62,8 @@
                 "GlossaryTerm",
                 "InstructionalRoutine",
                 "StandardsFramework",
-                "StandardsFrameworkItem"
+                "StandardsFrameworkItem",
+                "Representation"
               ]
             }
           },
@@ -1519,6 +1523,35 @@
             ]
           },
           "description": "A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials ."
+        },
+        "hasRepresentation": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Representation"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/OcxLink"
+                  },
+                  {
+                    "properties": {
+                      "link": {
+                        "properties": {
+                          "@type": {
+                            "const": "Representation"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Links to one or more Representation objects that provide access to the Material in different formats."
         }
       },
       "required": [
@@ -2076,6 +2109,72 @@
       ],
       "additionalProperties": false,
       "description": "The StandardsFrameworkItem entity represents an individual statement or structural element within a standards framework. Items may be normative statements (e.g., a standard that specifies what students should know or be able to do) or organizational groupings (e.g., strands, clusters)."
+    },
+    "Representation": {
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "const": "Representation"
+        },
+        "identifier": {
+          "type": "string",
+          "description": "The identifier of the item, either as textual strings or as URL (URI) links."
+        },
+        "encodingFormat": {
+          "type": "string",
+          "description": "MIME type of the representation (e.g., 'application/pdf', 'text/html')."
+        },
+        "accessResource": {
+          "type": "string",
+          "description": "URL, path, or inline content providing access to the resource."
+        },
+        "preferred": {
+          "type": "boolean",
+          "description": "TRUE if this is the preferred representation among multiple formats."
+        },
+        "isOcxGenerated": {
+          "type": "boolean",
+          "description": "TRUE if generated during OCX packaging, FALSE if from source system."
+        },
+        "lmsLoadingGuidance": {
+          "$ref": "#/definitions/lmsLoadingGuidanceENUM",
+          "description": "Vendor guidance on whether this representation should be loaded into an LMS."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the representation (e.g., 'Spanish PDF')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the representation."
+        },
+        "inLanguage": {
+          "$ref": "#/definitions/LanguageENUM",
+          "description": "Language of this representation, if different from the parent Material."
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this representation was created."
+        },
+        "dateModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this representation was last modified."
+        }
+      },
+      "required": [
+        "@id",
+        "@type",
+        "identifier",
+        "encodingFormat",
+        "accessResource"
+      ],
+      "additionalProperties": false,
+      "description": "A digital or physical media object that embodies a specific version, format, or instance of a Material, making it accessible or consumable by users."
     }
   }
 }

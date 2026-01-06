@@ -106,4 +106,66 @@ describe("OCX JSON Schema", () => {
       ),
     ).toBe(true);
   });
+
+  it("validates Material with embedded Representation objects", () => {
+    const materialWithRepresentations = {
+      "@id": "urn:ocx:material-test",
+      "@type": "Material",
+      identifier: "material-test",
+      name: "Test Material",
+      audience: ["Student"],
+      author: "Test Author",
+      license: "CC-BY",
+      content: "Test content",
+      materialType: "Individual",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-02-01T00:00:00Z",
+      hasRepresentation: [
+        {
+          "@id": "urn:ocx:rep-1",
+          "@type": "Representation",
+          identifier: "test.pdf",
+          encodingFormat: "application/pdf",
+          accessResource: "assets/test.pdf",
+          preferred: true,
+          isOcxGenerated: false,
+          lmsLoadingGuidance: "Recommended",
+        },
+        {
+          "@id": "urn:ocx:rep-2",
+          "@type": "Representation",
+          identifier: "test-es.pdf",
+          encodingFormat: "application/pdf",
+          accessResource: "assets/test-es.pdf",
+          isOcxGenerated: true,
+          inLanguage: "es-US",
+          name: "Spanish PDF",
+        },
+      ],
+    };
+    expect(validate(materialWithRepresentations)).toBe(true);
+    expect(validate.errors).toBeNull();
+  });
+
+  it("validates standalone Representation objects", () => {
+    const representation = {
+      "@id": "urn:ocx:rep-standalone",
+      "@type": "Representation",
+      identifier: "standalone.pdf",
+      encodingFormat: "application/pdf",
+      accessResource: "assets/standalone.pdf",
+    };
+    expect(validate(representation)).toBe(true);
+    expect(validate.errors).toBeNull();
+  });
+
+  it("rejects Representation missing required fields", () => {
+    const invalidRepresentation = {
+      "@id": "urn:ocx:rep-invalid",
+      "@type": "Representation",
+      identifier: "invalid.pdf",
+      // missing encodingFormat and accessResource
+    };
+    expect(validate(invalidRepresentation)).toBe(false);
+  });
 });

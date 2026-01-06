@@ -20,6 +20,11 @@ type ValueStandard = {
   [key: string]: unknown;
 };
 
+type Extensions = {
+  entities?: Entity[];
+  entityExtensions?: Record<string, Record<string, PropertyDetails>>;
+};
+
 type ResolvedArkType =
   | { kind: "primitive"; expression: string }
   | { kind: "enum"; name: string }
@@ -44,9 +49,32 @@ const __dirname = path.dirname(__filename);
 
 const entitiesPath = path.resolve(__dirname, "..", entitiesPathArg);
 const valueStandardsPath = path.resolve(__dirname, "..", valueStandardsPathArg);
+const extensionsPath = path.resolve(
+  __dirname,
+  "..",
+  "ontology/extensions.json",
+);
 
-const entities = readJson<Entity[]>(entitiesPath);
+const baseEntities = readJson<Entity[]>(entitiesPath);
 const valueStandards = readJson<ValueStandard[]>(valueStandardsPath);
+const extensions = fs.existsSync(extensionsPath)
+  ? readJson<Extensions>(extensionsPath)
+  : { entities: [], entityExtensions: {} };
+
+// Merge extensions into entities
+const entities = [...baseEntities, ...(extensions.entities ?? [])];
+
+// Apply entity extensions (additional properties to existing entities)
+if (extensions.entityExtensions) {
+  for (const [entityName, props] of Object.entries(
+    extensions.entityExtensions,
+  )) {
+    const entity = entities.find((e) => e.entity === entityName);
+    if (entity) {
+      entity.properties = { ...entity.properties, ...props };
+    }
+  }
+}
 
 const enumMap = valueStandards.reduce<Record<string, string[]>>(
   (acc, entry) => {

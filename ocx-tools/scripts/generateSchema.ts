@@ -23,6 +23,11 @@ type ValueStandard = {
   [key: string]: unknown;
 };
 
+type Extensions = {
+  entities?: Entity[];
+  entityExtensions?: Record<string, Record<string, PropertyDetails>>;
+};
+
 type JsonSchema = Record<string, unknown>;
 
 type ResolvedType =
@@ -49,12 +54,35 @@ const __dirname = path.dirname(__filename);
 
 const entitiesPath = path.resolve(__dirname, "..", entitiesPathArg);
 const valueStandardsPath = path.resolve(__dirname, "..", valueStandardsPathArg);
+const extensionsPath = path.resolve(
+  __dirname,
+  "..",
+  "ontology/extensions.json",
+);
 const outDir = path.resolve(__dirname, "..", outDirArg);
 const schemaFile = path.join(outDir, "ocx.schema.json");
 const typesFile = path.join(outDir, "ocx.d.ts");
 
-const entities = readJson<Entity[]>(entitiesPath);
+const baseEntities = readJson<Entity[]>(entitiesPath);
 const valueStandards = readJson<ValueStandard[]>(valueStandardsPath);
+const extensions = fs.existsSync(extensionsPath)
+  ? readJson<Extensions>(extensionsPath)
+  : { entities: [], entityExtensions: {} };
+
+// Merge extensions into entities
+const entities = [...baseEntities, ...(extensions.entities ?? [])];
+
+// Apply entity extensions (additional properties to existing entities)
+if (extensions.entityExtensions) {
+  for (const [entityName, props] of Object.entries(
+    extensions.entityExtensions,
+  )) {
+    const entity = entities.find((e) => e.entity === entityName);
+    if (entity) {
+      entity.properties = { ...entity.properties, ...props };
+    }
+  }
+}
 
 const enumMap = valueStandards.reduce<Record<string, string[]>>(
   (acc, entry) => {

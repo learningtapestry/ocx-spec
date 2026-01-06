@@ -11,7 +11,8 @@ export type OcxEntityType =
   | "GlossaryTerm"
   | "InstructionalRoutine"
   | "StandardsFramework"
-  | "StandardsFrameworkItem";
+  | "StandardsFrameworkItem"
+  | "Representation";
 
 export type OcxLink<T extends string = OcxEntityType> = {
   link: {
@@ -487,6 +488,8 @@ export type Material = {
     | StandardsFrameworkItem
     | OcxLink<"StandardsFrameworkItem">
   )[];
+  /** Links to one or more Representation objects that provide access to the Material in different formats. */
+  hasRepresentation?: (Representation | OcxLink<"Representation">)[];
 };
 
 /** ClassroomMaterials represent physical tools, supplies, or resources used to support instruction but do not themselves contain instructional content. (E.g., manipulatives, lab equipment, or presentation tools.) */
@@ -687,6 +690,34 @@ export type StandardsFrameworkItem = {
   hasChild?: (StandardsFrameworkItem | OcxLink<"StandardsFrameworkItem">)[];
 };
 
+/** A digital or physical media object that embodies a specific version, format, or instance of a Material, making it accessible or consumable by users. */
+export type Representation = {
+  "@id": string;
+  "@type": "Representation";
+  /** The identifier of the item, either as textual strings or as URL (URI) links. */
+  identifier: string;
+  /** MIME type of the representation (e.g., 'application/pdf', 'text/html'). */
+  encodingFormat: string;
+  /** URL, path, or inline content providing access to the resource. */
+  accessResource: string;
+  /** TRUE if this is the preferred representation among multiple formats. */
+  preferred?: boolean;
+  /** TRUE if generated during OCX packaging, FALSE if from source system. */
+  isOcxGenerated?: boolean;
+  /** Vendor guidance on whether this representation should be loaded into an LMS. */
+  lmsLoadingGuidance?: lmsLoadingGuidanceENUM;
+  /** Name of the representation (e.g., 'Spanish PDF'). */
+  name?: string;
+  /** Description of the representation. */
+  description?: string;
+  /** Language of this representation, if different from the parent Material. */
+  inLanguage?: LanguageENUM;
+  /** When this representation was created. */
+  dateCreated?: string;
+  /** When this representation was last modified. */
+  dateModified?: string;
+};
+
 export type OcxEntity =
   | Course
   | LessonGrouping
@@ -698,4 +729,5 @@ export type OcxEntity =
   | GlossaryTerm
   | InstructionalRoutine
   | StandardsFramework
-  | StandardsFrameworkItem;
+  | StandardsFrameworkItem
+  | Representation;

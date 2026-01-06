@@ -325,6 +325,7 @@ const definitions = {
     providerDateModified: "string.date.iso",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+    "hasRepresentation?": "(Representation | OcxLink<'Representation'>)[]",
   },
 
   ClassroomMaterial: {
@@ -438,6 +439,22 @@ const definitions = {
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
   },
 
+  Representation: {
+    "@id": "string",
+    "@type": "'Representation'",
+    identifier: "string",
+    encodingFormat: "string",
+    accessResource: "string",
+    "preferred?": "boolean",
+    "isOcxGenerated?": "boolean",
+    "lmsLoadingGuidance?": "lmsLoadingGuidanceENUM",
+    "name?": "string",
+    "description?": "string",
+    "inLanguage?": "LanguageENUM",
+    "dateCreated?": "string.date.iso",
+    "dateModified?": "string.date.iso",
+  },
+
   OcxEntity: `
     Course |
     LessonGrouping |
@@ -449,7 +466,8 @@ const definitions = {
     GlossaryTerm |
     InstructionalRoutine |
     StandardsFramework |
-    StandardsFrameworkItem
+    StandardsFrameworkItem |
+    Representation
   `,
 } as const;
 
