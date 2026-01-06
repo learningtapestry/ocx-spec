@@ -229,7 +229,7 @@ const definitions = {
     providerDateCreated: "string.date.iso",
     providerDateModified: "string.date.iso",
     "timeRequired?": "Duration",
-    "hasPart?": "(Activity | OcxLink<'Activity'>)[]",
+    "hasPart?": "(Activity | Material | OcxLink<('Activity' | 'Material')>)[]",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":

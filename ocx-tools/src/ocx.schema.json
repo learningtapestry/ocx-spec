@@ -738,6 +738,9 @@
                 "$ref": "#/definitions/Activity"
               },
               {
+                "$ref": "#/definitions/Material"
+              },
+              {
                 "allOf": [
                   {
                     "$ref": "#/definitions/OcxLink"
@@ -747,7 +750,7 @@
                       "link": {
                         "properties": {
                           "@type": {
-                            "const": "Activity"
+                            "enum": ["Activity", "Material"]
                           }
                         }
                       }
@@ -757,7 +760,7 @@
               }
             ]
           },
-          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials ."
+          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials, LessonGroupings containing Lessons, nested LessonGroupings, or Materials, Lessons containing Activities or Materials, and Activities containing Materials."
         },
         "hasEducationalAlignment": {
           "type": "array",

@@ -168,4 +168,59 @@ describe("OCX JSON Schema", () => {
     };
     expect(validate(invalidRepresentation)).toBe(false);
   });
+
+  it("allows Lesson to have Material in hasPart", () => {
+    const baseLesson = {
+      "@id": "urn:ocx:lesson-test",
+      "@type": "Lesson",
+      audience: ["Student"],
+      author: "Test Author",
+      identifier: "lesson-test",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+    };
+
+    // Lesson with embedded Material
+    const lessonWithEmbeddedMaterial = {
+      ...baseLesson,
+      hasPart: [
+        {
+          "@id": "urn:ocx:material-1",
+          "@type": "Material",
+          identifier: "material-1",
+          audience: ["Student"],
+          author: "Test Author",
+          license: "CC-BY",
+          content: "<p>Test content</p>",
+          materialType: "Supporting",
+          providerDateCreated: "2024-01-01T00:00:00Z",
+          providerDateModified: "2024-01-02T00:00:00Z",
+        },
+      ],
+    };
+    expect(validate(lessonWithEmbeddedMaterial)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    // Lesson with Material link
+    const lessonWithMaterialLink = {
+      ...baseLesson,
+      "@id": "urn:ocx:lesson-test-2",
+      hasPart: [{ link: { "@id": "urn:ocx:material-1", "@type": "Material" } }],
+    };
+    expect(validate(lessonWithMaterialLink)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    // Lesson with both Activity and Material
+    const lessonWithActivityAndMaterial = {
+      ...baseLesson,
+      "@id": "urn:ocx:lesson-test-3",
+      hasPart: [
+        { link: { "@id": "urn:ocx:activity-1", "@type": "Activity" } },
+        { link: { "@id": "urn:ocx:material-1", "@type": "Material" } },
+      ],
+    };
+    expect(validate(lessonWithActivityAndMaterial)).toBe(true);
+    expect(validate.errors).toBeNull();
+  });
 });
