@@ -317,7 +317,7 @@ const definitions = {
     identifier: "string",
     "inLanguage?": "LanguageENUM",
     license: "string",
-    materialType: "StudentGroupingTypeENUM",
+    materialType: "MaterialTypeENUM",
     "name?": "string",
     "ordinalName?": "string",
     "provider?": "string",

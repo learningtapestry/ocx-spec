@@ -117,7 +117,7 @@ describe("OCX JSON Schema", () => {
       author: "Test Author",
       license: "CC-BY",
       content: "Test content",
-      materialType: "Individual",
+      materialType: "Supporting",
       providerDateCreated: "2024-01-01T00:00:00Z",
       providerDateModified: "2024-02-01T00:00:00Z",
       hasRepresentation: [

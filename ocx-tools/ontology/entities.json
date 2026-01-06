@@ -1001,7 +1001,7 @@
       },
       "materialType": {
         "description": "A classification that indicates the role or purpose of a learning material within the educational context, describing how it is intended to support teaching and learning.",
-        "type": "StudentGroupingTypeENUM",
+        "type": "MaterialTypeENUM",
         "include": "",
         "cardinality": "1",
         "source": ""

@@ -1470,7 +1470,7 @@
           "description": "A license document that applies to this content, typically indicated by URL."
         },
         "materialType": {
-          "$ref": "#/definitions/StudentGroupingTypeENUM",
+          "$ref": "#/definitions/MaterialTypeENUM",
           "description": "A classification that indicates the role or purpose of a learning material within the educational context, describing how it is intended to support teaching and learning."
         },
         "name": {

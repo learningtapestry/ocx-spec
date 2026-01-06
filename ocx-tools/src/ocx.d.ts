@@ -472,7 +472,7 @@ export type Material = {
   /** A license document that applies to this content, typically indicated by URL. */
   license: string;
   /** A classification that indicates the role or purpose of a learning material within the educational context, describing how it is intended to support teaching and learning. */
-  materialType: StudentGroupingTypeENUM;
+  materialType: MaterialTypeENUM;
   /** The name of the item. */
   name?: string;
   /** A label that combines the item’s sequence number with descriptive text to indicate its order and context within a larger structure (e.g., ‘Lesson 1’, ‘Chapter 2’). */
