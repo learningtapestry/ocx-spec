@@ -288,6 +288,87 @@ describe("ocx-validate CLI", () => {
     });
   });
 
+  describe("detailed error output", () => {
+    it("shows instancePath for schema errors", async () => {
+      const invalidFile = path.join(
+        FIXTURES_PATH,
+        "package",
+        "invalid-schema-package",
+        "invalid-course.json",
+      );
+      const { stdout, exitCode } = await runCli([invalidFile]);
+
+      expect(exitCode).toBe(1);
+      // Should show the path to the invalid property
+      expect(stdout).toMatch(/\/audience|\/@type|\(root\)/);
+    });
+
+    it("shows keyword in brackets for schema errors", async () => {
+      const invalidFile = path.join(
+        FIXTURES_PATH,
+        "package",
+        "invalid-schema-package",
+        "invalid-course.json",
+      );
+      const { stdout, exitCode } = await runCli([invalidFile]);
+
+      expect(exitCode).toBe(1);
+      // Should show validation keywords like [type], [required], [additionalProperties], etc.
+      expect(stdout).toMatch(
+        /\[(type|required|additionalProperties|const|oneOf)\]/,
+      );
+    });
+
+    it("shows additional property name when additionalProperties fails", async () => {
+      const invalidFile = path.join(
+        FIXTURES_PATH,
+        "ocx",
+        "invalid-additional-property.json",
+      );
+      const { stdout, exitCode } = await runCli([invalidFile]);
+
+      expect(exitCode).toBe(1);
+      expect(stdout).toContain("[additionalProperties]");
+      expect(stdout).toContain("(property: unknownField)");
+    });
+
+    it("shows missing property name when required fails", async () => {
+      const invalidFile = path.join(
+        FIXTURES_PATH,
+        "ocx",
+        "invalid-missing-required.json",
+      );
+      const { stdout, exitCode } = await runCli([invalidFile]);
+
+      expect(exitCode).toBe(1);
+      expect(stdout).toContain("[required]");
+      expect(stdout).toContain("(missing:");
+    });
+
+    it("includes AJV error details in JSON output", async () => {
+      const invalidFile = path.join(
+        FIXTURES_PATH,
+        "package",
+        "invalid-schema-package",
+        "invalid-course.json",
+      );
+      const { stdout, exitCode } = await runCli(["--json", invalidFile]);
+
+      expect(exitCode).toBe(1);
+      const result = JSON.parse(stdout);
+      const schemaError = result[0].result.errors.find(
+        (e: { type: string }) => e.type === "schema",
+      );
+      expect(schemaError).toBeDefined();
+      expect(schemaError.details).toBeDefined();
+      expect(Array.isArray(schemaError.details)).toBe(true);
+      expect(schemaError.details.length).toBeGreaterThan(0);
+      // AJV error objects should have these properties
+      expect(schemaError.details[0]).toHaveProperty("keyword");
+      expect(schemaError.details[0]).toHaveProperty("message");
+    });
+  });
+
   describe("--check-references flag", () => {
     it("includes flag in help text", async () => {
       const { stdout, exitCode } = await runCli(["--help"]);

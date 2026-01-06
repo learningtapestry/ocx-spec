@@ -64,6 +64,25 @@ function formatErrors(result: ValidationResult, filePath: string): string {
   for (const error of result.errors) {
     const location = error.path ? ` (${error.path})` : "";
     lines.push(`  - [${error.type}]${location}: ${error.message}`);
+
+    // Show AJV error details for schema/manifest errors
+    if (error.details && Array.isArray(error.details)) {
+      for (const detail of error.details) {
+        const path = detail.instancePath || "(root)";
+        const keyword = detail.keyword ? `[${detail.keyword}]` : "";
+        let extra = "";
+        if (detail.params) {
+          if (detail.params.additionalProperty) {
+            extra = ` (property: ${detail.params.additionalProperty})`;
+          } else if (detail.params.missingProperty) {
+            extra = ` (missing: ${detail.params.missingProperty})`;
+          } else if (detail.params.allowedValues) {
+            extra = ` (allowed: ${detail.params.allowedValues.join(", ")})`;
+          }
+        }
+        lines.push(`      ${path} ${keyword}: ${detail.message}${extra}`);
+      }
+    }
   }
   return lines.join("\n");
 }

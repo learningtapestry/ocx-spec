@@ -1,0 +1,6 @@
+{
+  "@type": "Course",
+  "@id": "urn:ocx:test-course",
+  "name": "Test Course",
+  "unknownField": "this property is not in the schema"
+}
