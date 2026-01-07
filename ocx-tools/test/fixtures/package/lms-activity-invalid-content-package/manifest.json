@@ -1,4 +1,5 @@
 {
+  "@id": "https://example.org/packages/lms-activity-invalid-content",
   "name": "LMS Activity Invalid Content Package",
   "description": "An OCX package with invalid LMS Activity content",
   "format": "ocx@1.0.0",

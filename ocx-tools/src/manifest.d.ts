@@ -8,6 +8,7 @@ export interface ManifestContentEntry {
 }
 
 export interface Manifest {
+  "@id": string;
   name?: string;
   description?: string;
   format: `ocx@${string}`;

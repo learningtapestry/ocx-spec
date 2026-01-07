@@ -4,6 +4,9 @@
   "title": "OCX Manifest",
   "type": "object",
   "properties": {
+    "@id": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },
@@ -50,6 +53,6 @@
       }
     }
   },
-  "required": ["format", "contents"],
+  "required": ["@id", "format", "contents"],
   "additionalProperties": false
 }

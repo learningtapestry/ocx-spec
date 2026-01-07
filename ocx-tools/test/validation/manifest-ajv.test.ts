@@ -33,6 +33,7 @@ describe("validation/manifest-ajv", () => {
 
   it("rejects manifest with invalid type", () => {
     const badType = {
+      "@id": "https://example.org/packages/test",
       format: "ocx@1.0.0",
       contents: [{ path: "test.json", type: "InvalidType" }],
     };
@@ -41,10 +42,25 @@ describe("validation/manifest-ajv", () => {
 
   it("rejects manifest with additional properties", () => {
     const extraProps = {
+      "@id": "https://example.org/packages/test",
       format: "ocx@1.0.0",
       contents: [],
       unknownField: "not allowed",
     };
     expect(validate(extraProps)).toBe(false);
+  });
+
+  it("rejects manifest with missing @id", () => {
+    const missingId = {
+      format: "ocx@1.0.0",
+      contents: [],
+    };
+    expect(validate(missingId)).toBe(false);
+    expect(validate.errors).toBeDefined();
+    expect(
+      validate.errors?.some(
+        (e) => e.keyword === "required" && e.params?.missingProperty === "@id",
+      ),
+    ).toBe(true);
   });
 });

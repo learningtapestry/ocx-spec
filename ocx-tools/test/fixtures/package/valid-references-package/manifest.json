@@ -1,4 +1,5 @@
 {
+  "@id": "https://example.org/packages/valid-references",
   "format": "ocx@1.0.0",
   "name": "Valid References Test Package",
   "description": "Test package with all @link references resolved",

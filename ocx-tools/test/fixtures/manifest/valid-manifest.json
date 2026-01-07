@@ -1,4 +1,5 @@
 {
+  "@id": "https://example.org/packages/grade-1-ela-unit-1",
   "name": "Grade 1 ELA Unit 1",
   "description": "A sample OCX package for Grade 1 English Language Arts",
   "format": "ocx@1.0.0",

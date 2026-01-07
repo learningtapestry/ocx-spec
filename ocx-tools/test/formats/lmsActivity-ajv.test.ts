@@ -25,10 +25,8 @@ describe("formats/lmsActivity-ajv", () => {
     };
     expect(validate(invalid)).toBe(false);
     expect(validate.errors).toHaveLength(1);
-    expect(validate.errors?.[0].params).toHaveProperty(
-      "missingProperty",
-      "name",
-    );
+    const error = validate.errors?.[0];
+    expect(error?.params).toHaveProperty("missingProperty", "name");
   });
 
   it("rejects LMS Activity missing description", () => {
@@ -37,10 +35,8 @@ describe("formats/lmsActivity-ajv", () => {
     };
     expect(validate(invalid)).toBe(false);
     expect(validate.errors).toHaveLength(1);
-    expect(validate.errors?.[0].params).toHaveProperty(
-      "missingProperty",
-      "description",
-    );
+    const error = validate.errors?.[0];
+    expect(error?.params).toHaveProperty("missingProperty", "description");
   });
 
   it("rejects LMS Activity with extra properties", () => {
@@ -50,7 +46,8 @@ describe("formats/lmsActivity-ajv", () => {
       extra: "not allowed",
     };
     expect(validate(invalid)).toBe(false);
-    expect(validate.errors?.[0].keyword).toBe("additionalProperties");
+    const error = validate.errors?.[0];
+    expect(error?.keyword).toBe("additionalProperties");
   });
 
   it("rejects empty object", () => {

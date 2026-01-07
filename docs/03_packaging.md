@@ -18,6 +18,10 @@ This file is **required** for every OCX package.
 
 ### Top‑Level Properties
 
+#### `@id` *(required)*
+
+A unique identifier for the OCX package.
+
 #### `name` *(optional)*
 
 A human‑readable, descriptive name for the OCX package.
@@ -71,6 +75,7 @@ A schema for the manifest's JSON format is available here:
 ```js
 {
   "$schema": "https://path/to/ocx/manifest.schema.json",
+  "@id": "https://example.org/packages/grade-1-ela-unit-1",
   "name": "Grade 1 ELA Unit 1",
   "format": "ocx@1.0.0",
   "contents": [
