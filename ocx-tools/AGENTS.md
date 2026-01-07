@@ -33,7 +33,8 @@ npm run lint          # Biome linter
 npm run lint:fix      # Auto-fix lint issues
 npm run build         # Build to dist/
 npm run clean         # Delete dist/ folder
-npm run generate-schema  # Regenerate schemas from ontology
+npm run generate-schema    # Regenerate schemas from ontology
+npm run fixtures:rebuild   # Rebuild test fixture .ocx.zip files
 ```
 
 ## Code Generation
@@ -95,7 +96,9 @@ After modifying `extensions.json`, run `npm run generate-schema` to regenerate t
 
 ## Testing
 
-Tests use Vitest. Test files mirror source structure in `test/`. Fixtures are in `fixtures/`.
+Tests use Vitest. Test files mirror source structure in `test/`. Fixtures are in `test/fixtures/`.
+
+Package test fixtures (`test/fixtures/package/`) contain source directories (`*-package/`) and their corresponding `.ocx.zip` files. After modifying any manifest or content files in a package directory, run `npm run fixtures:rebuild` to regenerate the ZIP files.
 
 ## CLI Tool
 

@@ -20,6 +20,7 @@
     "test": "vitest run --exclude test/bin/**",
     "test:bin": "vitest run test/bin",
     "test:all": "vitest run",
+    "fixtures:rebuild": "cd test/fixtures/package && for dir in *-package; do name=${dir%-package}; rm -f \"$name.ocx.zip\" && (cd \"$dir\" && zip -r \"../$name.ocx.zip\" .); done",
     "typecheck": "tsc",
     "generate-json-schema": "tsx scripts/generateSchema.ts ontology/entities.json ontology/value_standards.json src/",
     "generate-arktype": "tsx scripts/generateArkTypes.ts ontology/entities.json ontology/value_standards.json src/validation/ark.ts",
