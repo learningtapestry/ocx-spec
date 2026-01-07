@@ -16,15 +16,15 @@ The LMS Activity format represents minimal structured activity metadata for Lear
 
 | Field | Type | Required | Description |
 | :---- | :---- | :---- | :---- |
-| name | String | Yes | The name of the LMS activity |
-| description | String | Yes | A description of the LMS activity |
+| title | String | Yes | The title of the LMS activity |
+| content | String | Yes | The content of the LMS activity |
 
 ### Example
 
 ```json
 {
-  "name": "Variables Quiz",
-  "description": "Test your understanding of algebraic variables and expressions"
+  "title": "Variables Quiz",
+  "content": "Test your understanding of algebraic variables and expressions"
 }
 ```
 

@@ -5,8 +5,8 @@
  * encodingFormat: "application/vnd.ocx.lmsActivity+json"
  */
 export interface LmsActivity {
-  /** The name of the LMS activity */
-  name: string;
-  /** A description of the LMS activity */
-  description: string;
+  /** The title of the LMS activity */
+  title: string;
+  /** The content of the LMS activity */
+  content: string;
 }

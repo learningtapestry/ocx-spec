@@ -5,15 +5,15 @@
   "description": "Minimal activity metadata for LMS systems. Used as the content format for Representations with encodingFormat 'application/vnd.ocx.lmsActivity+json'.",
   "type": "object",
   "properties": {
-    "name": {
+    "title": {
       "type": "string",
-      "description": "The name of the LMS activity"
+      "description": "The title of the LMS activity"
     },
-    "description": {
+    "content": {
       "type": "string",
-      "description": "A description of the LMS activity"
+      "description": "The content of the LMS activity"
     }
   },
-  "required": ["name", "description"],
+  "required": ["title", "content"],
   "additionalProperties": false
 }

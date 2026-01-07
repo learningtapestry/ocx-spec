@@ -10,33 +10,33 @@ describe("formats/lmsActivity-ark", () => {
 
   it("accepts valid LMS Activity", () => {
     const valid = {
-      name: "Quiz: Variables",
-      description: "A quiz about variables and expressions",
+      title: "Quiz: Variables",
+      content: "A quiz about variables and expressions",
     };
     const result = LmsActivity(valid);
     expect(result).not.toBeInstanceOf(type.errors);
     expect(result).toEqual(valid);
   });
 
-  it("rejects LMS Activity missing name", () => {
+  it("rejects LMS Activity missing title", () => {
     const invalid = {
-      description: "A quiz about variables",
+      content: "A quiz about variables",
     };
     const result = LmsActivity(invalid);
     expect(result).toBeInstanceOf(type.errors);
     if (result instanceof type.errors) {
-      expect(result.summary).toContain("name");
+      expect(result.summary).toContain("title");
     }
   });
 
-  it("rejects LMS Activity missing description", () => {
+  it("rejects LMS Activity missing content", () => {
     const invalid = {
-      name: "Quiz: Variables",
+      title: "Quiz: Variables",
     };
     const result = LmsActivity(invalid);
     expect(result).toBeInstanceOf(type.errors);
     if (result instanceof type.errors) {
-      expect(result.summary).toContain("description");
+      expect(result.summary).toContain("content");
     }
   });
 
@@ -45,19 +45,19 @@ describe("formats/lmsActivity-ark", () => {
     expect(result).toBeInstanceOf(type.errors);
   });
 
-  it("rejects non-string name", () => {
+  it("rejects non-string title", () => {
     const invalid = {
-      name: 123,
-      description: "A quiz",
+      title: 123,
+      content: "A quiz",
     };
     const result = LmsActivity(invalid);
     expect(result).toBeInstanceOf(type.errors);
   });
 
-  it("rejects non-string description", () => {
+  it("rejects non-string content", () => {
     const invalid = {
-      name: "Quiz",
-      description: 456,
+      title: "Quiz",
+      content: 456,
     };
     const result = LmsActivity(invalid);
     expect(result).toBeInstanceOf(type.errors);

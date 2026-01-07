@@ -13,36 +13,36 @@ describe("formats/lmsActivity-ajv", () => {
 
   it("accepts valid LMS Activity", () => {
     const valid = {
-      name: "Quiz: Variables",
-      description: "A quiz about variables and expressions",
+      title: "Quiz: Variables",
+      content: "A quiz about variables and expressions",
     };
     expect(validate(valid)).toBe(true);
   });
 
-  it("rejects LMS Activity missing name", () => {
+  it("rejects LMS Activity missing title", () => {
     const invalid = {
-      description: "A quiz about variables",
+      content: "A quiz about variables",
     };
     expect(validate(invalid)).toBe(false);
     expect(validate.errors).toHaveLength(1);
     const error = validate.errors?.[0];
-    expect(error?.params).toHaveProperty("missingProperty", "name");
+    expect(error?.params).toHaveProperty("missingProperty", "title");
   });
 
-  it("rejects LMS Activity missing description", () => {
+  it("rejects LMS Activity missing content", () => {
     const invalid = {
-      name: "Quiz: Variables",
+      title: "Quiz: Variables",
     };
     expect(validate(invalid)).toBe(false);
     expect(validate.errors).toHaveLength(1);
     const error = validate.errors?.[0];
-    expect(error?.params).toHaveProperty("missingProperty", "description");
+    expect(error?.params).toHaveProperty("missingProperty", "content");
   });
 
   it("rejects LMS Activity with extra properties", () => {
     const invalid = {
-      name: "Quiz",
-      description: "Description",
+      title: "Quiz",
+      content: "Content",
       extra: "not allowed",
     };
     expect(validate(invalid)).toBe(false);
@@ -54,18 +54,18 @@ describe("formats/lmsActivity-ajv", () => {
     expect(validate({})).toBe(false);
   });
 
-  it("rejects non-string name", () => {
+  it("rejects non-string title", () => {
     const invalid = {
-      name: 123,
-      description: "A quiz",
+      title: 123,
+      content: "A quiz",
     };
     expect(validate(invalid)).toBe(false);
   });
 
-  it("rejects non-string description", () => {
+  it("rejects non-string content", () => {
     const invalid = {
-      name: "Quiz",
-      description: 456,
+      title: "Quiz",
+      content: 456,
     };
     expect(validate(invalid)).toBe(false);
   });
