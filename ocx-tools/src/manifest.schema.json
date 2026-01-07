@@ -13,6 +13,10 @@
     "description": {
       "type": "string"
     },
+    "inLanguage": {
+      "type": "string",
+      "enum": ["en-US", "es-US"]
+    },
     "format": {
       "type": "string",
       "pattern": "^ocx@\\d+\\.\\d+\\.\\d+$"

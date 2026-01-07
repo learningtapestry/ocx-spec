@@ -30,6 +30,10 @@ A human‑readable, descriptive name for the OCX package.
 
 A brief description of the contents in the OCX package.
 
+#### `inLanguage` *(optional)*
+
+The language of the content. Valid values: `en-US`, `es-US`.
+
 #### `format` *(required)*
 
 Specifies the manifest format version.
@@ -77,6 +81,7 @@ A schema for the manifest's JSON format is available here:
   "$schema": "https://path/to/ocx/manifest.schema.json",
   "@id": "https://example.org/packages/grade-1-ela-unit-1",
   "name": "Grade 1 ELA Unit 1",
+  "inLanguage": "en-US",
   "format": "ocx@1.0.0",
   "contents": [
     {

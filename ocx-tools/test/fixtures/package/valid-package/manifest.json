@@ -2,6 +2,7 @@
   "@id": "https://example.org/packages/sample-course",
   "name": "Sample Course Package",
   "description": "A valid OCX package for testing",
+  "inLanguage": "en-US",
   "format": "ocx@1.0.0",
   "contents": [
     {

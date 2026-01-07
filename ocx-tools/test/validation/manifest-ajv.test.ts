@@ -63,4 +63,16 @@ describe("validation/manifest-ajv", () => {
       ),
     ).toBe(true);
   });
+
+  it("rejects manifest with invalid inLanguage", () => {
+    const invalidLanguage = {
+      "@id": "https://example.org/packages/test",
+      format: "ocx@1.0.0",
+      inLanguage: "fr-FR",
+      contents: [],
+    };
+    expect(validate(invalidLanguage)).toBe(false);
+    const error = validate.errors?.[0];
+    expect(error?.keyword).toBe("enum");
+  });
 });
