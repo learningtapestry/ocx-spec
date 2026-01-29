@@ -74,6 +74,11 @@
       "required": ["link"],
       "additionalProperties": false
     },
+    "Duration": {
+      "type": "string",
+      "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?!$)(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$",
+      "description": "Durations are encoded using the ISO 8601 standard (PnYnMnDTnHnMnS), allowing precise representation of years, months, days, hours, minutes, and seconds."
+    },
     "AcademicSubjectENUM": {
       "type": "string",
       "enum": [
@@ -87,19 +92,6 @@
     "AdoptionStatusENUM": {
       "type": "string",
       "enum": ["Draft", "Proposed", "Adopted", "Implemented", "Retired"]
-    },
-    "Duration": {
-      "type": "string",
-      "enum": [
-        "Years",
-        "Months",
-        "Weeks",
-        "Days",
-        "Hours",
-        "Minutes",
-        "Seconds",
-        "Combined"
-      ]
     },
     "EducationalAudienceENUM": {
       "type": "string",

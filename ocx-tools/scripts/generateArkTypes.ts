@@ -55,8 +55,24 @@ const extensionsPath = path.resolve(
   "ontology/extensions.json",
 );
 
+type DurationDef = {
+  name: string;
+  description: string;
+  format: Array<{
+    unit: string;
+    format: string;
+    example: string;
+    meaning: string;
+  }>;
+};
+
+const durationPath = path.resolve(__dirname, "..", "ontology/duration.json");
+
 const baseEntities = readJson<Entity[]>(entitiesPath);
 const valueStandards = readJson<ValueStandard[]>(valueStandardsPath);
+const durationDef = fs.existsSync(durationPath)
+  ? readJson<DurationDef>(durationPath)
+  : undefined;
 const extensions = fs.existsSync(extensionsPath)
   ? readJson<Extensions>(extensionsPath)
   : { entities: [], entityExtensions: {} };
@@ -84,14 +100,13 @@ const enumMap = valueStandards.reduce<Record<string, string[]>>(
   {},
 );
 
-const primitiveArkMap = {
+const primitiveArkMap: Record<string, string> = {
   String: "string",
   Boolean: "boolean",
   Integer: "number.integer",
   Datetime: "string.date.iso",
-} as const;
-
-type PrimitiveArkKey = keyof typeof primitiveArkMap;
+  ...(durationDef ? { [durationDef.name]: durationDef.name } : {}),
+};
 
 const enumNames = Object.keys(enumMap);
 const entityNames = entities.map((entry) => entry.entity);
@@ -103,15 +118,14 @@ const isRequired = (cardinality: string) =>
   cardinality === "1" || cardinality === "1..n";
 const normalizeTypes = (type: string | string[]) =>
   Array.isArray(type) ? type : [type];
-const isPrimitiveType = (type: string): type is PrimitiveArkKey =>
-  type in primitiveArkMap;
+const isPrimitiveType = (type: string): boolean => type in primitiveArkMap;
 
 const resolveBaseType = (
   type: string,
   currentEntity: string,
 ): ResolvedArkType => {
   if (isPrimitiveType(type)) {
-    return { kind: "primitive", expression: primitiveArkMap[type] };
+    return { kind: "primitive", expression: primitiveArkMap[type] as string };
   }
   if (enumNames.includes(type)) {
     return { kind: "enum", name: type };
@@ -125,7 +139,7 @@ const resolveBaseType = (
     );
     unknownTypeWarnings.add(type);
   }
-  return { kind: "unknown", expression: primitiveArkMap.String };
+  return { kind: "unknown", expression: primitiveArkMap.String as string };
 };
 
 const buildLinkExpression = (allowedEntities: string[]) => {
@@ -175,7 +189,7 @@ const buildPropertyExpression = (
   }
 
   if (expressions.length === 0) {
-    expressions.push(primitiveArkMap.String);
+    expressions.push(primitiveArkMap.String as string);
   }
 
   const base =
@@ -215,6 +229,13 @@ const buildArkFileContent = (entityList: Entity[]) => {
   );
   lines.push('import { scope, type } from "arktype";', "");
 
+  if (durationDef) {
+    lines.push(
+      `const ${durationDef.name} = type(/^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?!$)(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$/);`,
+      "",
+    );
+  }
+
   lines.push("const enums = {");
   valueStandards.forEach((entry) => {
     const values = (enumMap[entry.name] ?? [])
@@ -227,6 +248,7 @@ const buildArkFileContent = (entityList: Entity[]) => {
   lines.push(
     "const definitions = {",
     "  ...enums,",
+    ...(durationDef ? ["", `  ${durationDef.name},`] : []),
     "",
     `  "OcxLink<t>": {`,
     `    link: {`,

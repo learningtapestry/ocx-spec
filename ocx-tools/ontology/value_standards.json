@@ -52,44 +52,6 @@
     ]
   },
   {
-    "name": "Duration",
-    "description": "Durations are encoded using the ISO 8601 standard (PnYnMnDTnHnMnS), allowing precise representation of years, months, days, hours, minutes, and seconds.",
-    "values": [
-      {
-        "value": "Years",
-        "definition": "Format: PnY | Example: P2Y | Meaning: Period of 2 years"
-      },
-      {
-        "value": "Months",
-        "definition": "Format: PnM | Example: P3M | Meaning: Period of 3 months"
-      },
-      {
-        "value": "Weeks",
-        "definition": "Format: PnW | Example: P4W | Meaning: Period of 4 weeks"
-      },
-      {
-        "value": "Days",
-        "definition": "Format: PnD | Example: P5D | Meaning: Period of 5 days"
-      },
-      {
-        "value": "Hours",
-        "definition": "Format: PTnH | Example: PT6H | Meaning: Period of 6 hours"
-      },
-      {
-        "value": "Minutes",
-        "definition": "Format: PTnM | Example: PT30M | Meaning: Period of 30 minutes"
-      },
-      {
-        "value": "Seconds",
-        "definition": "Format: PTnS | Example: PT45S | Meaning: Period of 45 seconds"
-      },
-      {
-        "value": "Combined",
-        "definition": "Format: PnYnMnDTnHnMnS | Example: P1Y2M3DT4H5M6S | Meaning: Period of 1 year, 2 months, 3 days, 4 hours, 5 minutes, and 6 seconds"
-      }
-    ]
-  },
-  {
     "name": "EducationalAudienceENUM",
     "description": "The following terms define the intended audience for an educational resource.",
     "values": [

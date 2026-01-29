@@ -169,6 +169,45 @@ describe("OCX JSON Schema", () => {
     expect(validate(invalidRepresentation)).toBe(false);
   });
 
+  describe("Duration (ISO 8601) validation", () => {
+    const baseActivity = {
+      "@id": "urn:ocx:activity-duration-test",
+      "@type": "Activity",
+      identifier: "activity-duration-test",
+      name: "Duration Test Activity",
+      audience: ["Teacher"],
+      author: "Test Author",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-02-01T00:00:00Z",
+    };
+
+    it.each([
+      ["PT45M", "minutes only"],
+      ["PT1H30M", "hours and minutes"],
+      ["P1D", "days only"],
+      ["P2W", "weeks only"],
+      ["P1Y2M3DT4H5M6S", "full combined"],
+      ["PT0.5S", "fractional seconds"],
+    ])("accepts valid duration %s (%s)", (duration) => {
+      expect(validate({ ...baseActivity, timeRequired: duration })).toBe(true);
+      expect(validate.errors).toBeNull();
+    });
+
+    it.each([
+      ["45 minutes", "plain text"],
+      ["P", "bare P with no components"],
+      ["PT", "bare PT with no time components"],
+      ["1H30M", "missing P prefix"],
+      ["", "empty string"],
+    ])("rejects invalid duration %s (%s)", (duration) => {
+      expect(validate({ ...baseActivity, timeRequired: duration })).toBe(false);
+      expect(
+        validate.errors?.some((error) => error.keyword === "pattern"),
+      ).toBe(true);
+    });
+  });
+
   it("allows Lesson to have Material in hasPart", () => {
     const baseLesson = {
       "@id": "urn:ocx:lesson-test",

@@ -1,0 +1,54 @@
+{
+  "name": "Duration",
+  "description": "Durations are encoded using the ISO 8601 standard (PnYnMnDTnHnMnS), allowing precise representation of years, months, days, hours, minutes, and seconds.",
+  "format": [
+    {
+      "unit": "Years",
+      "format": "PnY",
+      "example": "P2Y",
+      "meaning": "Period of 2 years"
+    },
+    {
+      "unit": "Months",
+      "format": "PnM",
+      "example": "P3M",
+      "meaning": "Period of 3 months"
+    },
+    {
+      "unit": "Weeks",
+      "format": "PnW",
+      "example": "P4W",
+      "meaning": "Period of 4 weeks"
+    },
+    {
+      "unit": "Days",
+      "format": "PnD",
+      "example": "P5D",
+      "meaning": "Period of 5 days"
+    },
+    {
+      "unit": "Hours",
+      "format": "PTnH",
+      "example": "PT6H",
+      "meaning": "Period of 6 hours"
+    },
+    {
+      "unit": "Minutes",
+      "format": "PTnM",
+      "example": "PT30M",
+      "meaning": "Period of 30 minutes"
+    },
+    {
+      "unit": "Seconds",
+      "format": "PTnS",
+      "example": "PT45S",
+      "meaning": "Period of 45 seconds"
+    },
+    {
+      "unit": "Combined",
+      "format": "PnYnMnDTnHnMnS",
+      "example": "P1Y2M3DT4H5M6S",
+      "meaning": "Period of 1 year, 2 months, 3 days, 4 hours, 5 minutes, and 6 seconds"
+    }
+  ]
+}
