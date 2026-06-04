@@ -25,6 +25,15 @@ describe("validation/manifest-ajv", () => {
     expect(validate(validManifest)).toBe(true);
   });
 
+  it("allows content entries to include entity ids", () => {
+    const manifest = {
+      "@id": "https://example.org/packages/test",
+      format: "ocx@1.0.0",
+      contents: [{ id: "urn:ocx:course-test", path: "course.json", type: "Course" }],
+    };
+    expect(validate(manifest)).toBe(true);
+  });
+
   it("rejects an invalid manifest", () => {
     expect(validate(invalidManifest)).toBe(false);
     expect(validate.errors).toBeDefined();

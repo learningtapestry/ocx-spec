@@ -56,6 +56,10 @@ Each `contents` entry supports the following fields:
 Path to the file.
 Use relative paths if your package is organized into directories.
 
+#### `id` *(optional)*
+
+The `@id` of the OCX entity represented by the file.
+
 #### `name` *(optional)*
 
 A descriptive, user‑friendly title for the OCX file.
