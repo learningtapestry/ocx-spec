@@ -10,6 +10,7 @@ The `hasRepresentation` property connects a Material to its format variants.
 
 | Property | Type | Include | Cardinality | Description |
 | :---- | :---- | :---- | :---- | :---- |
+| isProgressive | Boolean | MAY | 0..1 | TRUE if the Material is meant to be developed or revisited across multiple lessons |
 | hasRepresentation | Representation | MAY | 0..n | Links to one or more Representation objects that provide access to the Material in different formats |
 
 ## Representation

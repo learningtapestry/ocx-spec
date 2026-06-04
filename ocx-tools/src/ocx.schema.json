@@ -1519,6 +1519,10 @@
           },
           "description": "A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials ."
         },
+        "isProgressive": {
+          "type": "boolean",
+          "description": "TRUE if the material is meant to be developed or revisited across multiple lessons."
+        },
         "hasRepresentation": {
           "type": "array",
           "items": {

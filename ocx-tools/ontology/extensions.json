@@ -90,6 +90,13 @@
   ],
   "entityExtensions": {
     "Material": {
+      "isProgressive": {
+        "description": "TRUE if the material is meant to be developed or revisited across multiple lessons.",
+        "type": "Boolean",
+        "include": "MAY",
+        "cardinality": "0..1",
+        "source": "CZI"
+      },
       "hasRepresentation": {
         "description": "Links to one or more Representation objects that provide access to the Material in different formats.",
         "type": "Representation",

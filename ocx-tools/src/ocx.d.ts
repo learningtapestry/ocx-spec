@@ -484,6 +484,8 @@ export type Material = {
     | StandardsFrameworkItem
     | OcxLink<"StandardsFrameworkItem">
   )[];
+  /** TRUE if the material is meant to be developed or revisited across multiple lessons. */
+  isProgressive?: boolean;
   /** Links to one or more Representation objects that provide access to the Material in different formats. */
   hasRepresentation?: (Representation | OcxLink<"Representation">)[];
 };

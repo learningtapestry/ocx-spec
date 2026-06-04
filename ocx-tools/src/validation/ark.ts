@@ -320,6 +320,7 @@ const definitions = {
     providerDateModified: "string.date.iso",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+    "isProgressive?": "boolean",
     "hasRepresentation?": "(Representation | OcxLink<'Representation'>)[]",
   },
 
