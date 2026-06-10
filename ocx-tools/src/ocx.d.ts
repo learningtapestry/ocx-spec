@@ -179,11 +179,12 @@ export type Course = {
   providerDateModified: string;
   /** Approximate or typical time it usually takes to work with or through the content of this work for the typical or target audience. */
   timeRequired?: Duration;
-  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials . */
+  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials. */
   hasPart?: (
     | LessonGrouping
+    | Assessment
     | Material
-    | OcxLink<"LessonGrouping" | "Material">
+    | OcxLink<"LessonGrouping" | "Assessment" | "Material">
   )[];
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
@@ -244,12 +245,13 @@ export type LessonGrouping = {
   providerDateModified: string;
   /** Approximate or typical time it usually takes to work with or through the content of this work for the typical or target audience. */
   timeRequired?: Duration;
-  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials . */
+  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials. */
   hasPart?: (
     | LessonGrouping
     | Lesson
+    | Assessment
     | Material
-    | OcxLink<"LessonGrouping" | "Lesson" | "Material">
+    | OcxLink<"LessonGrouping" | "Lesson" | "Assessment" | "Material">
   )[];
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
@@ -306,8 +308,13 @@ export type Lesson = {
   providerDateModified: string;
   /** Approximate or typical time it usually takes to work with or through the content of this work for the typical or target audience. */
   timeRequired?: Duration;
-  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials, LessonGroupings containing Lessons, nested LessonGroupings, or Materials, Lessons containing Activities or Materials, and Activities containing Materials. */
-  hasPart?: (Activity | Material | OcxLink<"Activity" | "Material">)[];
+  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials. */
+  hasPart?: (
+    | Activity
+    | Assessment
+    | Material
+    | OcxLink<"Activity" | "Assessment" | "Material">
+  )[];
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
@@ -373,8 +380,8 @@ export type Activity = {
   submissionRequired?: boolean;
   /** Approximate or typical time it usually takes to work with or through the content of this work for the typical or target audience. */
   timeRequired?: Duration;
-  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials . */
-  hasPart?: (Material | OcxLink<"Material">)[];
+  /** A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials. */
+  hasPart?: (Assessment | Material | OcxLink<"Assessment" | "Material">)[];
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
@@ -445,6 +452,8 @@ export type Assessment = {
   references?: (Lesson | OcxLink<"Lesson">)[];
   /** A mutuallyExclusiveWith relationship connects one Assessment to another, indicating that they are alternatives and should not both be administered due to overlap in content or intended purpose. */
   mutuallyExclusiveWith?: (Assessment | OcxLink<"Assessment">)[];
+  /** A hasPart relationship connects an Assessment to one or more Materials that contain the assessment content, such as prompts, handouts, rubrics, answer keys, or other supporting documents. */
+  hasPart?: (Material | OcxLink<"Material">)[];
 };
 
 /** Materials represent instructional content (such as readings, videos, worksheets, images, or digital resources) that support learning activities within a curriculum. */

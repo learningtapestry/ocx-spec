@@ -29,7 +29,9 @@ describe("validation/manifest-ajv", () => {
     const manifest = {
       "@id": "https://example.org/packages/test",
       format: "ocx@1.0.0",
-      contents: [{ id: "urn:ocx:course-test", path: "course.json", type: "Course" }],
+      contents: [
+        { id: "urn:ocx:course-test", path: "course.json", type: "Course" },
+      ],
     };
     expect(validate(manifest)).toBe(true);
   });

@@ -303,6 +303,9 @@
                 "$ref": "#/definitions/LessonGrouping"
               },
               {
+                "$ref": "#/definitions/Assessment"
+              },
+              {
                 "$ref": "#/definitions/Material"
               },
               {
@@ -315,7 +318,7 @@
                       "link": {
                         "properties": {
                           "@type": {
-                            "enum": ["LessonGrouping", "Material"]
+                            "enum": ["LessonGrouping", "Assessment", "Material"]
                           }
                         }
                       }
@@ -325,7 +328,7 @@
               }
             ]
           },
-          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials ."
+          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials."
         },
         "hasEducationalAlignment": {
           "type": "array",
@@ -521,6 +524,9 @@
                 "$ref": "#/definitions/Lesson"
               },
               {
+                "$ref": "#/definitions/Assessment"
+              },
+              {
                 "$ref": "#/definitions/Material"
               },
               {
@@ -533,7 +539,12 @@
                       "link": {
                         "properties": {
                           "@type": {
-                            "enum": ["LessonGrouping", "Lesson", "Material"]
+                            "enum": [
+                              "LessonGrouping",
+                              "Lesson",
+                              "Assessment",
+                              "Material"
+                            ]
                           }
                         }
                       }
@@ -543,7 +554,7 @@
               }
             ]
           },
-          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials ."
+          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials."
         },
         "hasEducationalAlignment": {
           "type": "array",
@@ -730,6 +741,9 @@
                 "$ref": "#/definitions/Activity"
               },
               {
+                "$ref": "#/definitions/Assessment"
+              },
+              {
                 "$ref": "#/definitions/Material"
               },
               {
@@ -742,7 +756,7 @@
                       "link": {
                         "properties": {
                           "@type": {
-                            "enum": ["Activity", "Material"]
+                            "enum": ["Activity", "Assessment", "Material"]
                           }
                         }
                       }
@@ -752,7 +766,7 @@
               }
             ]
           },
-          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials, LessonGroupings containing Lessons, nested LessonGroupings, or Materials, Lessons containing Activities or Materials, and Activities containing Materials."
+          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials."
         },
         "hasEducationalAlignment": {
           "type": "array",
@@ -1032,6 +1046,9 @@
           "items": {
             "anyOf": [
               {
+                "$ref": "#/definitions/Assessment"
+              },
+              {
                 "$ref": "#/definitions/Material"
               },
               {
@@ -1044,7 +1061,7 @@
                       "link": {
                         "properties": {
                           "@type": {
-                            "const": "Material"
+                            "enum": ["Assessment", "Material"]
                           }
                         }
                       }
@@ -1054,7 +1071,7 @@
               }
             ]
           },
-          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional content. This includes Courses containing LessonGroupings or Materials , LessonGroupings containing Lessons , nested LessonGroupings , or Materials , Lessons containing Activities , and Activities containing Materials ."
+          "description": "A hasPart relationship connects a parent curriculum element to its constituent components, allowing hierarchical organization of instructional and assessment content. This includes Courses containing LessonGroupings, Assessments, or Materials; LessonGroupings containing Lessons, nested LessonGroupings, Assessments, or Materials; Lessons containing Activities, Assessments, or Materials; Activities containing Assessments or Materials; and Assessments containing Materials."
         },
         "hasEducationalAlignment": {
           "type": "array",
@@ -1404,6 +1421,35 @@
             ]
           },
           "description": "A mutuallyExclusiveWith relationship connects one Assessment to another, indicating that they are alternatives and should not both be administered due to overlap in content or intended purpose."
+        },
+        "hasPart": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Material"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/OcxLink"
+                  },
+                  {
+                    "properties": {
+                      "link": {
+                        "properties": {
+                          "@type": {
+                            "const": "Material"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "A hasPart relationship connects an Assessment to one or more Materials that contain the assessment content, such as prompts, handouts, rubrics, answer keys, or other supporting documents."
         }
       },
       "required": [

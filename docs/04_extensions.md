@@ -13,6 +13,65 @@ The `hasRepresentation` property connects a Material to its format variants.
 | isProgressive | Boolean | MAY | 0..1 | TRUE if the Material is meant to be developed or revisited across multiple lessons |
 | hasRepresentation | Representation | MAY | 0..n | Links to one or more Representation objects that provide access to the Material in different formats |
 
+## Assessment Relationship Extensions
+
+OCX extends `hasPart` relationships so Assessments can be placed in the curriculum hierarchy and can point to the Materials that contain assessment content. This keeps Assessment as the evaluative wrapper and Material as the content-bearing resource with Representations.
+
+| Entity | Property | Type | Include | Cardinality | Description |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Course | hasPart | LessonGrouping, Assessment, Material | MAY | 0..n | Course-level content, including course-wide assessments or assessment materials |
+| LessonGrouping | hasPart | LessonGrouping, Lesson, Assessment, Material | MAY | 0..n | Grouping-level content, including unit/module assessments or assessment overview materials |
+| Lesson | hasPart | Activity, Assessment, Material | MAY | 0..n | Lesson-level activities, assessments, and materials |
+| Activity | hasPart | Assessment, Material | MAY | 0..n | Activity-level assessments and materials |
+| Assessment | hasPart | Material | MAY | 0..n | Materials that contain the assessment content, such as prompts, handouts, rubrics, answer keys, or supporting documents |
+
+### Example
+
+```json
+{
+  "@id": "urn:ocx:activity-1",
+  "@type": "Activity",
+  "identifier": "activity-1",
+  "audience": ["Student"],
+  "author": "Example Publisher",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-02T00:00:00Z",
+  "hasPart": [
+    {
+      "link": {
+        "@id": "urn:ocx:assessment-1",
+        "@type": "Assessment"
+      }
+    }
+  ]
+}
+```
+
+```json
+{
+  "@id": "urn:ocx:assessment-1",
+  "@type": "Assessment",
+  "identifier": "assessment-1",
+  "name": "Lesson 1 Exit Ticket",
+  "audience": ["Student"],
+  "author": "Example Publisher",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "educationalUse": "Assessment",
+  "gradingRequired": true,
+  "providerDateCreated": "2024-01-01T00:00:00Z",
+  "providerDateModified": "2024-01-02T00:00:00Z",
+  "hasPart": [
+    {
+      "link": {
+        "@id": "urn:ocx:assessment-material-1",
+        "@type": "Material"
+      }
+    }
+  ]
+}
+```
+
 ## Representation
 
 A **Representation** is a digital or physical media object that embodies a specific version, format, or instance of a Material. Unlike other entities that inherit from LearningResource, Representation is intentionally minimal - most educational metadata belongs on the parent Material.

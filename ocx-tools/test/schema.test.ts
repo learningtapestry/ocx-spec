@@ -262,4 +262,114 @@ describe("OCX JSON Schema", () => {
     expect(validate(lessonWithActivityAndMaterial)).toBe(true);
     expect(validate.errors).toBeNull();
   });
+
+  it("allows curriculum containers and activities to have Assessment in hasPart", () => {
+    const baseAssessment = {
+      "@id": "urn:ocx:assessment-test",
+      "@type": "Assessment",
+      identifier: "assessment-test",
+      name: "Assessment Test",
+      audience: ["Student"],
+      author: "Test Author",
+      license: "CC-BY",
+      educationalUse: "Assessment",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+    };
+
+    const courseWithAssessment = {
+      "@id": "urn:ocx:course-assessment-test",
+      "@type": "Course",
+      audience: ["Teacher"],
+      author: "Test Author",
+      identifier: "course-assessment-test",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-test", "@type": "Assessment" } },
+      ],
+    };
+    expect(validate(courseWithAssessment)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    const lessonGroupingWithAssessment = {
+      "@id": "urn:ocx:unit-assessment-test",
+      "@type": "LessonGrouping",
+      audience: ["Teacher"],
+      author: "Test Author",
+      identifier: "unit-assessment-test",
+      groupLevel: 1,
+      groupName: "Unit",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-test", "@type": "Assessment" } },
+      ],
+    };
+    expect(validate(lessonGroupingWithAssessment)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    const lessonWithAssessment = {
+      "@id": "urn:ocx:lesson-assessment-test",
+      "@type": "Lesson",
+      audience: ["Teacher"],
+      author: "Test Author",
+      identifier: "lesson-assessment-test",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-test", "@type": "Assessment" } },
+      ],
+    };
+    expect(validate(lessonWithAssessment)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    const activityWithEmbeddedAssessment = {
+      "@id": "urn:ocx:activity-assessment-test",
+      "@type": "Activity",
+      audience: ["Student"],
+      author: "Test Author",
+      identifier: "activity-assessment-test",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [baseAssessment],
+    };
+    expect(validate(activityWithEmbeddedAssessment)).toBe(true);
+    expect(validate.errors).toBeNull();
+  });
+
+  it("allows Assessment to have Material in hasPart", () => {
+    const assessmentWithMaterial = {
+      "@id": "urn:ocx:assessment-with-material",
+      "@type": "Assessment",
+      identifier: "assessment-with-material",
+      name: "Assessment With Material",
+      audience: ["Student"],
+      author: "Test Author",
+      license: "CC-BY",
+      educationalUse: "Assessment",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [{ link: { "@id": "urn:ocx:material-1", "@type": "Material" } }],
+    };
+
+    expect(validate(assessmentWithMaterial)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    const assessmentWithInvalidPart = {
+      ...assessmentWithMaterial,
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-2", "@type": "Assessment" } },
+      ],
+    };
+
+    expect(validate(assessmentWithInvalidPart)).toBe(false);
+    expect(
+      validate.errors?.some((error) => error.instancePath.endsWith("/@type")),
+    ).toBe(true);
+  });
 });

@@ -160,7 +160,7 @@ const definitions = {
     providerDateModified: "string.date.iso",
     "timeRequired?": "Duration",
     "hasPart?":
-      "(LessonGrouping | Material | OcxLink<('LessonGrouping' | 'Material')>)[]",
+      "(LessonGrouping | Assessment | Material | OcxLink<('LessonGrouping' | 'Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":
@@ -194,7 +194,7 @@ const definitions = {
     providerDateModified: "string.date.iso",
     "timeRequired?": "Duration",
     "hasPart?":
-      "(LessonGrouping | Lesson | Material | OcxLink<('LessonGrouping' | 'Lesson' | 'Material')>)[]",
+      "(LessonGrouping | Lesson | Assessment | Material | OcxLink<('LessonGrouping' | 'Lesson' | 'Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
     "hasDependency?": "(LessonGrouping | OcxLink<'LessonGrouping'>)[]",
@@ -224,7 +224,8 @@ const definitions = {
     providerDateCreated: "string.date.iso",
     providerDateModified: "string.date.iso",
     "timeRequired?": "Duration",
-    "hasPart?": "(Activity | Material | OcxLink<('Activity' | 'Material')>)[]",
+    "hasPart?":
+      "(Activity | Assessment | Material | OcxLink<('Activity' | 'Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":
@@ -261,7 +262,8 @@ const definitions = {
     "studentGroupingType?": "StudentGroupingTypeENUM",
     "submissionRequired?": "boolean",
     "timeRequired?": "Duration",
-    "hasPart?": "(Material | OcxLink<'Material'>)[]",
+    "hasPart?":
+      "(Assessment | Material | OcxLink<('Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":
@@ -299,6 +301,7 @@ const definitions = {
       "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
     "references?": "(Lesson | OcxLink<'Lesson'>)[]",
     "mutuallyExclusiveWith?": "(Assessment | OcxLink<'Assessment'>)[]",
+    "hasPart?": "(Material | OcxLink<'Material'>)[]",
   },
 
   Material: {

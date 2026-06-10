@@ -104,4 +104,77 @@ describe("validation/ark", () => {
     const course = loadFixture("course.json");
     expect(ocx.OcxEntity(course)).not.toBeInstanceOf(type.errors);
   });
+
+  it("accepts assessment containment relationships", () => {
+    const assessment = {
+      "@id": "urn:ocx:assessment-test",
+      "@type": "Assessment",
+      identifier: "assessment-test",
+      name: "Assessment Test",
+      audience: ["Student"],
+      author: "Test Author",
+      license: "CC-BY",
+      educationalUse: "Assessment",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [{ link: { "@id": "urn:ocx:material-1", "@type": "Material" } }],
+    };
+
+    const activity = {
+      "@id": "urn:ocx:activity-assessment-test",
+      "@type": "Activity",
+      identifier: "activity-assessment-test",
+      audience: ["Student"],
+      author: "Test Author",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-test", "@type": "Assessment" } },
+      ],
+    };
+
+    const unit = {
+      "@id": "urn:ocx:unit-assessment-test",
+      "@type": "LessonGrouping",
+      identifier: "unit-assessment-test",
+      audience: ["Teacher"],
+      author: "Test Author",
+      groupLevel: 1,
+      groupName: "Unit",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-test", "@type": "Assessment" } },
+      ],
+    };
+
+    [
+      ocx.Assessment(assessment),
+      ocx.Activity(activity),
+      ocx.LessonGrouping(unit),
+    ].forEach((result) => {
+      expect(result).not.toBeInstanceOf(type.errors);
+    });
+  });
+
+  it("rejects assessment parts that are not materials", () => {
+    const assessment = {
+      "@id": "urn:ocx:assessment-test",
+      "@type": "Assessment",
+      identifier: "assessment-test",
+      name: "Assessment Test",
+      audience: ["Student"],
+      author: "Test Author",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+      hasPart: [
+        { link: { "@id": "urn:ocx:assessment-2", "@type": "Assessment" } },
+      ],
+    };
+
+    expect(ocx.Assessment(assessment)).toBeInstanceOf(type.errors);
+  });
 });
