@@ -1,4 +1,4 @@
-import type { LanguageENUM, OcxEntityType } from "./ocx";
+import type { LanguageENUM, OcxEntityType } from "./ocx.js";
 
 export interface ManifestContentEntry {
   path: string;

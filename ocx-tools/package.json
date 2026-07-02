@@ -1,9 +1,12 @@
 {
-  "name": "ocx-tools",
+  "name": "@learningtapestry/ocx-tools",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
-  "author": "",
+  "description": "TypeScript types, JSON schemas, validators, and CLI tools for the K-12 OCX specification.",
+  "license": "Apache-2.0",
+  "author": "Learning Tapestry",
+  "contributors": [
+    "Rômulo Saksida <romulo@rsaksida.com>"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,7 +19,8 @@
     "format": "biome format --write",
     "lint": "biome check",
     "lint:fix": "biome check --write",
-    "prepublishOnly": "npm run lint && npm run typecheck && npm run clean && npm run build",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm run test:all && npm run clean && npm run build && npm run smoke:pack",
+    "smoke:pack": "node scripts/smokePack.js",
     "test": "vitest run --exclude test/bin/**",
     "test:bin": "vitest run test/bin",
     "test:all": "vitest run",
@@ -36,15 +40,11 @@
       "default": "./dist/index.js"
     },
     "./manifest": {
-      "types": "./dist/manifest.d.ts",
-      "import": "./dist/manifest.js",
-      "default": "./dist/manifest.js"
+      "types": "./dist/manifest.d.ts"
     },
     "./manifest.schema.json": "./dist/manifest.schema.json",
     "./ocx": {
-      "types": "./dist/ocx.d.ts",
-      "import": "./dist/ocx.js",
-      "default": "./dist/ocx.js"
+      "types": "./dist/ocx.d.ts"
     },
     "./ocx.schema.json": "./dist/ocx.schema.json",
     "./validation/ajv": {
@@ -73,9 +73,7 @@
       "default": "./dist/formats/index.js"
     },
     "./formats/lmsActivity": {
-      "types": "./dist/formats/lmsActivity.d.ts",
-      "import": "./dist/formats/lmsActivity.d.ts",
-      "default": "./dist/formats/lmsActivity.d.ts"
+      "types": "./dist/formats/lmsActivity.d.ts"
     },
     "./formats/lmsActivity-ajv": {
       "types": "./dist/formats/lmsActivity-ajv.d.ts",
@@ -91,7 +89,7 @@
   },
   "sideEffects": false,
   "engines": {
-    "node": ">=20"
+    "node": ">=20.10"
   },
   "repository": {
     "type": "git",

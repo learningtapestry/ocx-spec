@@ -1,22 +1,28 @@
-# ocx-tools
-ocx-tools packages the K-12 OCX JSON schema, TypeScript types, and optional preconfigured validators for Node.js.
+# @learningtapestry/ocx-tools
+@learningtapestry/ocx-tools packages the K-12 OCX JSON schema, TypeScript types, preconfigured validators, and CLI tooling for Node.js.
 
-Requires Node 20+.
+Requires Node 20.10+.
 
 ## Working with the type library
 
 Static typing for OCX entities so your code gets proper shapes and autocompletion.
 
 ```bash
-npm install ocx-tools
+npm install @learningtapestry/ocx-tools
 ```
 
 ```ts
-import type { Course } from "ocx-tools/ocx";
+import type { Course } from "@learningtapestry/ocx-tools/ocx";
 
 function CourseComponent({ course }: { course: Course }) {
   // ...
 }
+```
+
+Format-specific type definitions are available as type-only subpath exports.
+
+```ts
+import type { LmsActivity } from "@learningtapestry/ocx-tools/formats/lmsActivity";
 ```
 
 ## Working with ArkType
@@ -27,11 +33,11 @@ Fast runtime validation with [ArkType](https://arktype.io/).
 The dependency on ArkType is optional; only install it if you need it.
 
 ```bash
-npm install ocx-tools arktype
+npm install @learningtapestry/ocx-tools arktype
 ```
 
 ```ts
-import ocx from "ocx-tools/validation/ark";
+import ocx from "@learningtapestry/ocx-tools/validation/ark";
 
 // `ocx` is an ArkType module containing all the OCX entities, including a generic
 // `OcxEntity` that should match any valid object by `@type`.
@@ -58,14 +64,14 @@ if (out instanceof type.errors) {
 
 A precompiled [AJV](https://ajv.js.org/) validator is available if you'd like to work with JSON Schema-based validation at runtime.
 
-The dependency on AJV is optional; only install it if you need it.
+AJV is included as a package dependency because the built-in validators and package validation APIs use it.
 
 ```bash
-npm install ocx-tools ajv
+npm install @learningtapestry/ocx-tools
 ```
 
 ```ts
-import validate from "ocx-tools/validation/ajv";
+import validate from "@learningtapestry/ocx-tools/validation/ajv";
 
 // ... get `ocxData` from somewhere ...
 
@@ -78,7 +84,7 @@ The JSON schema is also directly available [here](src/ocx.schema.json). You can 
 
 ```ts
 import Ajv from "ajv";
-import ocxSchema from "ocx-tools/ocx.schema.json" with { type: "json" };
+import ocxSchema from "@learningtapestry/ocx-tools/ocx.schema.json" with { type: "json" };
 
 const ajv = new Ajv({ strict: false, allErrors: true });
 
@@ -96,19 +102,19 @@ A command-line tool for validating OCX files and packages.
 
 ```bash
 # Validate OCX JSON files
-npx ocx-validate course.ocx.json lesson.ocx.json
+npx --package @learningtapestry/ocx-tools ocx-validate course.ocx.json lesson.ocx.json
 
 # Validate OCX packages (.ocx.zip)
-npx ocx-validate curriculum.ocx.zip
+npx --package @learningtapestry/ocx-tools ocx-validate curriculum.ocx.zip
 
 # Validate references within packages
-npx ocx-validate --check-references curriculum.ocx.zip
+npx --package @learningtapestry/ocx-tools ocx-validate --check-references curriculum.ocx.zip
 
 # Output results as JSON
-npx ocx-validate --json course.ocx.json
+npx --package @learningtapestry/ocx-tools ocx-validate --json course.ocx.json
 
 # Combine flags
-npx ocx-validate --json --check-references curriculum.ocx.zip
+npx --package @learningtapestry/ocx-tools ocx-validate --json --check-references curriculum.ocx.zip
 ```
 
 ### Validation Checks

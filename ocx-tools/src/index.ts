@@ -1,4 +1,4 @@
-export type { Manifest, ManifestContentEntry } from "./manifest";
+export type { Manifest, ManifestContentEntry } from "./manifest.js";
 export type {
   Activity,
   Assessment,
@@ -15,4 +15,4 @@ export type {
   Representation,
   StandardsFramework,
   StandardsFrameworkItem,
-} from "./ocx";
+} from "./ocx.js";
