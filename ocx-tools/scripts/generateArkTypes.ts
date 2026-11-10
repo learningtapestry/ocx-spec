@@ -5,7 +5,13 @@ import { fileURLToPath } from "node:url";
 type PropertyDetails = {
   type: string | string[];
   cardinality: string;
+  linkProperties?: Record<string, LinkPropertyDetails>;
   [key: string]: unknown;
+};
+
+type LinkPropertyDetails = {
+  type: string | string[];
+  cardinality: string;
 };
 
 type Entity = {
@@ -142,11 +148,26 @@ const resolveBaseType = (
   return { kind: "unknown", expression: primitiveArkMap.String as string };
 };
 
-const buildLinkExpression = (allowedEntities: string[]) => {
+const buildLinkExpression = (
+  allowedEntities: string[],
+  linkProperties: Record<string, LinkPropertyDetails> = {},
+) => {
   const allowed = allowedEntities.map(wrapLiteral);
   const allowedUnion =
     allowed.length === 1 ? allowed[0] : `(${allowed.join(" | ")})`;
-  return `OcxLink<${allowedUnion}>`;
+  const propertyNames = Object.keys(linkProperties);
+  if (propertyNames.length === 0) {
+    return `OcxLink<${allowedUnion}>`;
+  }
+  if (
+    propertyNames.length === 1 &&
+    propertyNames[0] === "curriculumAlignmentType"
+  ) {
+    return `OcxEducationalAlignmentLink<${allowedUnion}>`;
+  }
+  throw new Error(
+    `Unsupported link properties: ${propertyNames.sort().join(", ")}`,
+  );
 };
 
 const buildPropertyExpression = (
@@ -185,7 +206,7 @@ const buildPropertyExpression = (
   if (relationshipTargets.size > 0) {
     const allowed = Array.from(relationshipTargets);
     expressions.push(...allowed);
-    expressions.push(buildLinkExpression(allowed));
+    expressions.push(buildLinkExpression(allowed, details.linkProperties));
   }
 
   if (expressions.length === 0) {
@@ -255,6 +276,14 @@ const buildArkFileContent = (entityList: Entity[]) => {
     `      "@id": "string",`,
     `      "@type": "t",`,
     `    },`,
+    "  },",
+    "",
+    `  "OcxEducationalAlignmentLink<t>": {`,
+    `    link: {`,
+    `      "@id": "string",`,
+    `      "@type": "t",`,
+    `    },`,
+    `    "curriculumAlignmentType?": "CurriculumAlignmentTypeENUM",`,
     "  },",
     "",
   );

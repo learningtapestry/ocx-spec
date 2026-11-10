@@ -2,6 +2,18 @@
 
 OCX extends the Learning Commons Knowledge Graph with additional entities and properties that support curriculum-specific needs.
 
+## Educational Alignment Relationship Extension
+
+The optional `curriculumAlignmentType` property on a
+`hasEducationalAlignment` link preserves a curriculum provider's designation
+of how the source curriculum element engages with the aligned standard. The
+property belongs to the relationship object, not to the linked
+`StandardsFrameworkItem`, because the same standard may play different roles in
+different curriculum elements.
+
+Producers should provide the most specific value supported by their source data
+and omit the property when the alignment type is unknown.
+
 ## Material Extensions
 
 ### hasRepresentation

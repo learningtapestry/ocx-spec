@@ -52,6 +52,40 @@
     ]
   },
   {
+    "name": "CurriculumAlignmentTypeENUM",
+    "description": "The following terms classify how a curriculum element engages with an aligned standard, competency, or learning goal.",
+    "values": [
+      {
+        "value": "addressing",
+        "definition": "Definition: The curriculum element engages with or covers the aligned item without asserting a more specific instructional role."
+      },
+      {
+        "value": "building_towards",
+        "definition": "Definition: The curriculum element contributes to developing knowledge or skill expected by the aligned item over time."
+      },
+      {
+        "value": "focus",
+        "definition": "Definition: The aligned item is a primary instructional focus of the curriculum element."
+      },
+      {
+        "value": "supporting",
+        "definition": "Definition: The aligned item supports the curriculum element but is not its primary instructional focus."
+      },
+      {
+        "value": "intentionally_developed",
+        "definition": "Definition: The curriculum element includes explicit structures and supports intended to develop the aligned practice or concept."
+      },
+      {
+        "value": "key_use",
+        "definition": "Definition: The curriculum element provides a structured opportunity to apply an already-developing practice or concept as a key part of sensemaking or problem solving."
+      },
+      {
+        "value": "not_a_focus",
+        "definition": "Definition: The aligned item may be used incidentally but is not a focus of learning in the curriculum element."
+      }
+    ]
+  },
+  {
     "name": "EducationalAudienceENUM",
     "description": "The following terms define the intended audience for an educational resource.",
     "values": [

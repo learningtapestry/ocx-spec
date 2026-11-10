@@ -74,6 +74,58 @@ describe("OCX JSON Schema", () => {
     ).toBe(true);
   });
 
+  it("validates curriculumAlignmentType only on educational alignment links", () => {
+    const baseCourse = {
+      "@id": "urn:ocx:course-alignment-test",
+      "@type": "Course",
+      audience: ["Teacher"],
+      author: "Test Author",
+      identifier: "course-alignment-test",
+      license: "CC-BY",
+      providerDateCreated: "2024-01-01T00:00:00Z",
+      providerDateModified: "2024-01-02T00:00:00Z",
+    };
+
+    const validCourse = {
+      ...baseCourse,
+      hasEducationalAlignment: [
+        {
+          link: {
+            "@id": "urn:ocx:standard-1",
+            "@type": "StandardsFrameworkItem",
+          },
+          curriculumAlignmentType: "building_towards",
+        },
+      ],
+    };
+    expect(validate(validCourse)).toBe(true);
+    expect(validate.errors).toBeNull();
+
+    expect(
+      validate({
+        ...validCourse,
+        hasEducationalAlignment: [
+          {
+            ...validCourse.hasEducationalAlignment[0],
+            curriculumAlignmentType: "guessed_value",
+          },
+        ],
+      }),
+    ).toBe(false);
+
+    expect(
+      validate({
+        ...baseCourse,
+        hasPart: [
+          {
+            link: { "@id": "urn:ocx:material-1", "@type": "Material" },
+            curriculumAlignmentType: "addressing",
+          },
+        ],
+      }),
+    ).toBe(false);
+  });
+
   it("requires @id and @type", () => {
     const baseCourse = {
       "@id": "urn:ocx:course-required-fields",

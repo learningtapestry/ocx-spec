@@ -142,6 +142,13 @@
         "type": "StandardsFrameworkItem",
         "include": "",
         "cardinality": "0..n",
+        "linkProperties": {
+          "curriculumAlignmentType": {
+            "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal.",
+            "type": "CurriculumAlignmentTypeENUM",
+            "cardinality": "0..1"
+          }
+        },
         "source": ""
       },
       "usesRoutine": {
@@ -334,6 +341,13 @@
         "type": "StandardsFrameworkItem",
         "include": "",
         "cardinality": "0..n",
+        "linkProperties": {
+          "curriculumAlignmentType": {
+            "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal.",
+            "type": "CurriculumAlignmentTypeENUM",
+            "cardinality": "0..1"
+          }
+        },
         "source": ""
       },
       "hasDependency": {
@@ -512,6 +526,13 @@
         "type": "StandardsFrameworkItem",
         "include": "",
         "cardinality": "0..n",
+        "linkProperties": {
+          "curriculumAlignmentType": {
+            "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal.",
+            "type": "CurriculumAlignmentTypeENUM",
+            "cardinality": "0..1"
+          }
+        },
         "source": ""
       },
       "usesRoutine": {
@@ -725,6 +746,13 @@
         "type": "StandardsFrameworkItem",
         "include": "",
         "cardinality": "0..n",
+        "linkProperties": {
+          "curriculumAlignmentType": {
+            "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal.",
+            "type": "CurriculumAlignmentTypeENUM",
+            "cardinality": "0..1"
+          }
+        },
         "source": ""
       },
       "usesRoutine": {
@@ -917,6 +945,13 @@
         "type": "StandardsFrameworkItem",
         "include": "",
         "cardinality": "0..n",
+        "linkProperties": {
+          "curriculumAlignmentType": {
+            "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal.",
+            "type": "CurriculumAlignmentTypeENUM",
+            "cardinality": "0..1"
+          }
+        },
         "source": ""
       },
       "references": {
@@ -1046,6 +1081,13 @@
         "type": "StandardsFrameworkItem",
         "include": "",
         "cardinality": "0..n",
+        "linkProperties": {
+          "curriculumAlignmentType": {
+            "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal.",
+            "type": "CurriculumAlignmentTypeENUM",
+            "cardinality": "0..1"
+          }
+        },
         "source": ""
       }
     },

@@ -1,3 +1,4 @@
+import { openAsBlob } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { BlobReader, TextWriter, ZipReader } from "@zip.js/zip.js";
 import type { ValidateFunction } from "ajv";
@@ -44,8 +45,7 @@ export interface PackageValidationOptions {
 async function readZipEntries(
   zipPath: string,
 ): Promise<Map<string, () => Promise<string>>> {
-  const fileData = await readFile(zipPath);
-  const blob = new Blob([fileData]);
+  const blob = await openAsBlob(zipPath);
   const zipReader = new ZipReader(new BlobReader(blob));
   const entries = await zipReader.getEntries();
 

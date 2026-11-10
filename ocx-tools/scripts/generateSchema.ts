@@ -7,7 +7,14 @@ type PropertyDetails = {
   type: string | string[];
   cardinality: string;
   description?: string;
+  linkProperties?: Record<string, LinkPropertyDetails>;
   [key: string]: unknown;
+};
+
+type LinkPropertyDetails = {
+  type: string | string[];
+  cardinality: string;
+  description?: string;
 };
 
 type Entity = {
@@ -153,7 +160,15 @@ const getPrimitiveSchema = (type: keyof typeof primitiveMap): JsonSchema => {
   return cloneSchema(schema);
 };
 
-const buildLinkRef = (allowedTypes: string[]): JsonSchema => {
+const buildLinkRef = (
+  allowedTypes: string[],
+  linkProperties: Record<string, LinkPropertyDetails> | undefined,
+  currentEntity: string,
+): JsonSchema => {
+  if (linkProperties && Object.keys(linkProperties).length > 0) {
+    return buildLinkSchema(allowedTypes, linkProperties, currentEntity);
+  }
+
   const typeConstraint =
     allowedTypes.length === 1
       ? { const: allowedTypes[0] }
@@ -209,9 +224,40 @@ const resolveBaseType = (type: string, currentEntity: string): ResolvedType => {
   return { kind: "unknown", schema: getPrimitiveSchema("String") };
 };
 
-const buildLinkSchema = (allowedTypes: string[]): JsonSchema => ({
-  type: "object",
-  properties: {
+const buildLinkPropertySchema = (
+  details: LinkPropertyDetails,
+  currentEntity: string,
+): JsonSchema => {
+  const schemas = normalizeTypes(details.type).map((entry) => {
+    const resolved = resolveBaseType(entry, currentEntity);
+    switch (resolved.kind) {
+      case "primitive":
+      case "unknown":
+        return resolved.schema;
+      case "enum":
+        return { $ref: `#/definitions/${resolved.name}` };
+      case "entity":
+        throw new Error(
+          `Link property on ${currentEntity} cannot target entity ${resolved.name}`,
+        );
+    }
+    throw new Error(`Unsupported link property type on ${currentEntity}`);
+  });
+
+  const schema =
+    schemas.length === 1 ? (schemas[0] as JsonSchema) : { anyOf: schemas };
+  if (details.description) {
+    schema.description = details.description;
+  }
+  return schema;
+};
+
+const buildLinkSchema = (
+  allowedTypes: string[],
+  linkProperties: Record<string, LinkPropertyDetails> = {},
+  currentEntity = "OcxLink",
+): JsonSchema => {
+  const properties: Record<string, JsonSchema> = {
     link: {
       type: "object",
       properties: {
@@ -224,10 +270,23 @@ const buildLinkSchema = (allowedTypes: string[]): JsonSchema => ({
       required: ["@id", "@type"],
       additionalProperties: false,
     },
-  },
-  required: ["link"],
-  additionalProperties: false,
-});
+  };
+  const required = ["link"];
+
+  Object.entries(linkProperties).forEach(([name, details]) => {
+    properties[name] = buildLinkPropertySchema(details, currentEntity);
+    if (isRequired(details.cardinality)) {
+      required.push(name);
+    }
+  });
+
+  return {
+    type: "object",
+    properties,
+    required,
+    additionalProperties: false,
+  };
+};
 
 const buildPropertySchema = (
   details: PropertyDetails,
@@ -259,7 +318,11 @@ const buildPropertySchema = (
     const refs = Array.from(relationshipTargets).map((name) => ({
       $ref: `#/definitions/${name}`,
     }));
-    const linkRef = buildLinkRef(Array.from(relationshipTargets));
+    const linkRef = buildLinkRef(
+      Array.from(relationshipTargets),
+      details.linkProperties,
+      currentEntity,
+    );
     const relationshipSchema =
       refs.length === 1
         ? { anyOf: [refs[0], linkRef] }
@@ -409,9 +472,40 @@ const buildPropertyType = (
   if (relationshipTargets.size > 0) {
     const allowedEntities = Array.from(relationshipTargets);
     addType(allowedEntities.join(" | "));
-    addType(
-      `OcxLink<${allowedEntities.map((entry) => JSON.stringify(entry)).join(" | ")}>`,
-    );
+    const linkType = `OcxLink<${allowedEntities.map((entry) => JSON.stringify(entry)).join(" | ")}>`;
+    const linkProperties = Object.entries(details.linkProperties ?? {});
+    if (linkProperties.length === 0) {
+      addType(linkType);
+    } else {
+      const metadata = linkProperties
+        .map(([name, property]) => {
+          const types = normalizeTypes(property.type).map((entry) => {
+            const resolved = resolveBaseType(entry, currentEntity);
+            switch (resolved.kind) {
+              case "primitive":
+                return (
+                  tsPrimitiveMap[entry as keyof typeof tsPrimitiveMap] ??
+                  "string"
+                );
+              case "enum":
+                return resolved.name;
+              case "unknown":
+                return "string";
+              case "entity":
+                throw new Error(
+                  `Link property on ${currentEntity} cannot target entity ${resolved.name}`,
+                );
+            }
+            throw new Error(
+              `Unsupported link property type on ${currentEntity}`,
+            );
+          });
+          const optional = isRequired(property.cardinality) ? "" : "?";
+          return `${formatPropertyName(name)}${optional}: ${types.join(" | ")}`;
+        })
+        .join("; ");
+      addType(`${linkType} & { ${metadata} }`);
+    }
   }
 
   if (propertyTypes.length === 0) {
@@ -500,7 +594,7 @@ const buildTypeDefinitions = () => {
 
   lines.push(`export type OcxEntity = ${entityNames.join(" | ")};`, "");
 
-  return `${lines.join("\n")}\n`;
+  return `${lines.join("\n").trimEnd()}\n`;
 };
 
 const generate = () => {

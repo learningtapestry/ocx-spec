@@ -93,6 +93,18 @@
       "type": "string",
       "enum": ["Draft", "Proposed", "Adopted", "Implemented", "Retired"]
     },
+    "CurriculumAlignmentTypeENUM": {
+      "type": "string",
+      "enum": [
+        "addressing",
+        "building_towards",
+        "focus",
+        "supporting",
+        "intentionally_developed",
+        "key_use",
+        "not_a_focus"
+      ]
+    },
     "EducationalAudienceENUM": {
       "type": "string",
       "enum": ["Teacher", "Student", "Family"]
@@ -338,22 +350,28 @@
                 "$ref": "#/definitions/StandardsFrameworkItem"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/OcxLink"
-                  },
-                  {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "object",
                     "properties": {
-                      "link": {
-                        "properties": {
-                          "@type": {
-                            "const": "StandardsFrameworkItem"
-                          }
-                        }
+                      "@id": {
+                        "type": "string"
+                      },
+                      "@type": {
+                        "const": "StandardsFrameworkItem"
                       }
-                    }
+                    },
+                    "required": ["@id", "@type"],
+                    "additionalProperties": false
+                  },
+                  "curriculumAlignmentType": {
+                    "$ref": "#/definitions/CurriculumAlignmentTypeENUM",
+                    "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal."
                   }
-                ]
+                },
+                "required": ["link"],
+                "additionalProperties": false
               }
             ]
           },
@@ -564,22 +582,28 @@
                 "$ref": "#/definitions/StandardsFrameworkItem"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/OcxLink"
-                  },
-                  {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "object",
                     "properties": {
-                      "link": {
-                        "properties": {
-                          "@type": {
-                            "const": "StandardsFrameworkItem"
-                          }
-                        }
+                      "@id": {
+                        "type": "string"
+                      },
+                      "@type": {
+                        "const": "StandardsFrameworkItem"
                       }
-                    }
+                    },
+                    "required": ["@id", "@type"],
+                    "additionalProperties": false
+                  },
+                  "curriculumAlignmentType": {
+                    "$ref": "#/definitions/CurriculumAlignmentTypeENUM",
+                    "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal."
                   }
-                ]
+                },
+                "required": ["link"],
+                "additionalProperties": false
               }
             ]
           },
@@ -776,22 +800,28 @@
                 "$ref": "#/definitions/StandardsFrameworkItem"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/OcxLink"
-                  },
-                  {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "object",
                     "properties": {
-                      "link": {
-                        "properties": {
-                          "@type": {
-                            "const": "StandardsFrameworkItem"
-                          }
-                        }
+                      "@id": {
+                        "type": "string"
+                      },
+                      "@type": {
+                        "const": "StandardsFrameworkItem"
                       }
-                    }
+                    },
+                    "required": ["@id", "@type"],
+                    "additionalProperties": false
+                  },
+                  "curriculumAlignmentType": {
+                    "$ref": "#/definitions/CurriculumAlignmentTypeENUM",
+                    "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal."
                   }
-                ]
+                },
+                "required": ["link"],
+                "additionalProperties": false
               }
             ]
           },
@@ -1081,22 +1111,28 @@
                 "$ref": "#/definitions/StandardsFrameworkItem"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/OcxLink"
-                  },
-                  {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "object",
                     "properties": {
-                      "link": {
-                        "properties": {
-                          "@type": {
-                            "const": "StandardsFrameworkItem"
-                          }
-                        }
+                      "@id": {
+                        "type": "string"
+                      },
+                      "@type": {
+                        "const": "StandardsFrameworkItem"
                       }
-                    }
+                    },
+                    "required": ["@id", "@type"],
+                    "additionalProperties": false
+                  },
+                  "curriculumAlignmentType": {
+                    "$ref": "#/definitions/CurriculumAlignmentTypeENUM",
+                    "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal."
                   }
-                ]
+                },
+                "required": ["link"],
+                "additionalProperties": false
               }
             ]
           },
@@ -1343,22 +1379,28 @@
                 "$ref": "#/definitions/StandardsFrameworkItem"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/OcxLink"
-                  },
-                  {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "object",
                     "properties": {
-                      "link": {
-                        "properties": {
-                          "@type": {
-                            "const": "StandardsFrameworkItem"
-                          }
-                        }
+                      "@id": {
+                        "type": "string"
+                      },
+                      "@type": {
+                        "const": "StandardsFrameworkItem"
                       }
-                    }
+                    },
+                    "required": ["@id", "@type"],
+                    "additionalProperties": false
+                  },
+                  "curriculumAlignmentType": {
+                    "$ref": "#/definitions/CurriculumAlignmentTypeENUM",
+                    "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal."
                   }
-                ]
+                },
+                "required": ["link"],
+                "additionalProperties": false
               }
             ]
           },
@@ -1544,22 +1586,28 @@
                 "$ref": "#/definitions/StandardsFrameworkItem"
               },
               {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/OcxLink"
-                  },
-                  {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "object",
                     "properties": {
-                      "link": {
-                        "properties": {
-                          "@type": {
-                            "const": "StandardsFrameworkItem"
-                          }
-                        }
+                      "@id": {
+                        "type": "string"
+                      },
+                      "@type": {
+                        "const": "StandardsFrameworkItem"
                       }
-                    }
+                    },
+                    "required": ["@id", "@type"],
+                    "additionalProperties": false
+                  },
+                  "curriculumAlignmentType": {
+                    "$ref": "#/definitions/CurriculumAlignmentTypeENUM",
+                    "description": "Classifies how the curriculum element engages with the aligned standard, competency, or learning goal."
                   }
-                ]
+                },
+                "required": ["link"],
+                "additionalProperties": false
               }
             ]
           },

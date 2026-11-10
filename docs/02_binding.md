@@ -22,3 +22,25 @@ Relationships in the JSON representations can be expressed in two ways:
 ```json
 { "link": { "@type": "Material", "@id": "material-1" } }
 ```
+
+### Educational alignment links
+
+Links in a `hasEducationalAlignment` relationship may include a
+`curriculumAlignmentType` property on the relationship object. This property
+classifies how the source curriculum element engages with the linked standard,
+competency, or learning goal.
+
+```json
+{
+  "link": {
+    "@type": "StandardsFrameworkItem",
+    "@id": "standard-1"
+  },
+  "curriculumAlignmentType": "building_towards"
+}
+```
+
+The property is optional because source curricula do not always distinguish the
+kind of alignment. Producers MUST NOT infer a value when the source data does
+not support one. Allowed values are `addressing`, `building_towards`, `focus`,
+`supporting`, `intentionally_developed`, `key_use`, and `not_a_focus`.

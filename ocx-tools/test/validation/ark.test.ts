@@ -105,6 +105,34 @@ describe("validation/ark", () => {
     expect(ocx.OcxEntity(course)).not.toBeInstanceOf(type.errors);
   });
 
+  it("validates typed educational alignment links", () => {
+    const course = {
+      ...loadFixture("course.json"),
+      hasEducationalAlignment: [
+        {
+          link: {
+            "@id": "urn:ocx:standard-1",
+            "@type": "StandardsFrameworkItem",
+          },
+          curriculumAlignmentType: "intentionally_developed",
+        },
+      ],
+    };
+
+    expect(ocx.Course(course)).not.toBeInstanceOf(type.errors);
+    expect(
+      ocx.Course({
+        ...course,
+        hasEducationalAlignment: [
+          {
+            ...course.hasEducationalAlignment[0],
+            curriculumAlignmentType: "guessed_value",
+          },
+        ],
+      }),
+    ).toBeInstanceOf(type.errors);
+  });
+
   it("accepts assessment containment relationships", () => {
     const assessment = {
       "@id": "urn:ocx:assessment-test",

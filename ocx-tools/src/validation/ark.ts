@@ -22,6 +22,16 @@ const enums = {
     "Retired",
   ),
 
+  CurriculumAlignmentTypeENUM: type.enumerated(
+    "addressing",
+    "building_towards",
+    "focus",
+    "supporting",
+    "intentionally_developed",
+    "key_use",
+    "not_a_focus",
+  ),
+
   EducationalAudienceENUM: type.enumerated("Teacher", "Student", "Family"),
 
   EducationalUseENUM: type.enumerated("Instruction", "Assessment"),
@@ -138,6 +148,14 @@ const definitions = {
     },
   },
 
+  "OcxEducationalAlignmentLink<t>": {
+    link: {
+      "@id": "string",
+      "@type": "t",
+    },
+    "curriculumAlignmentType?": "CurriculumAlignmentTypeENUM",
+  },
+
   Course: {
     "@id": "string",
     "@type": "'Course'",
@@ -162,7 +180,7 @@ const definitions = {
     "hasPart?":
       "(LessonGrouping | Assessment | Material | OcxLink<('LessonGrouping' | 'Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
-      "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+      "(StandardsFrameworkItem | OcxEducationalAlignmentLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":
       "(InstructionalRoutine | OcxLink<'InstructionalRoutine'>)[]",
   },
@@ -196,7 +214,7 @@ const definitions = {
     "hasPart?":
       "(LessonGrouping | Lesson | Assessment | Material | OcxLink<('LessonGrouping' | 'Lesson' | 'Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
-      "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+      "(StandardsFrameworkItem | OcxEducationalAlignmentLink<'StandardsFrameworkItem'>)[]",
     "hasDependency?": "(LessonGrouping | OcxLink<'LessonGrouping'>)[]",
   },
 
@@ -227,7 +245,7 @@ const definitions = {
     "hasPart?":
       "(Activity | Assessment | Material | OcxLink<('Activity' | 'Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
-      "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+      "(StandardsFrameworkItem | OcxEducationalAlignmentLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":
       "(InstructionalRoutine | OcxLink<'InstructionalRoutine'>)[]",
     "uses?": "(ClassroomMaterial | OcxLink<'ClassroomMaterial'>)[]",
@@ -265,7 +283,7 @@ const definitions = {
     "hasPart?":
       "(Assessment | Material | OcxLink<('Assessment' | 'Material')>)[]",
     "hasEducationalAlignment?":
-      "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+      "(StandardsFrameworkItem | OcxEducationalAlignmentLink<'StandardsFrameworkItem'>)[]",
     "usesRoutine?":
       "(InstructionalRoutine | OcxLink<'InstructionalRoutine'>)[]",
     "uses?": "(ClassroomMaterial | OcxLink<'ClassroomMaterial'>)[]",
@@ -298,7 +316,7 @@ const definitions = {
     "submissionRequired?": "boolean",
     "variant?": "string",
     "hasEducationalAlignment?":
-      "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+      "(StandardsFrameworkItem | OcxEducationalAlignmentLink<'StandardsFrameworkItem'>)[]",
     "references?": "(Lesson | OcxLink<'Lesson'>)[]",
     "mutuallyExclusiveWith?": "(Assessment | OcxLink<'Assessment'>)[]",
     "hasPart?": "(Material | OcxLink<'Material'>)[]",
@@ -322,7 +340,7 @@ const definitions = {
     providerDateCreated: "string.date.iso",
     providerDateModified: "string.date.iso",
     "hasEducationalAlignment?":
-      "(StandardsFrameworkItem | OcxLink<'StandardsFrameworkItem'>)[]",
+      "(StandardsFrameworkItem | OcxEducationalAlignmentLink<'StandardsFrameworkItem'>)[]",
     "isProgressive?": "boolean",
     "hasRepresentation?": "(Representation | OcxLink<'Representation'>)[]",
   },

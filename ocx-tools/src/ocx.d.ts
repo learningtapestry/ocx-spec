@@ -41,6 +41,15 @@ export type AdoptionStatusENUM =
   | "Implemented"
   | "Retired";
 
+export type CurriculumAlignmentTypeENUM =
+  | "addressing"
+  | "building_towards"
+  | "focus"
+  | "supporting"
+  | "intentionally_developed"
+  | "key_use"
+  | "not_a_focus";
+
 export type EducationalAudienceENUM = "Teacher" | "Student" | "Family";
 
 export type EducationalUseENUM = "Instruction" | "Assessment";
@@ -189,7 +198,9 @@ export type Course = {
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
-    | OcxLink<"StandardsFrameworkItem">
+    | (OcxLink<"StandardsFrameworkItem"> & {
+        curriculumAlignmentType?: CurriculumAlignmentTypeENUM;
+      })
   )[];
   /** A usesRoutine relationship connects a curriculum element to one or more InstructionalRoutines , representing structured, repeatable teaching strategies consistently employed to support instructional delivery and student engagement. This applies to Courses , Lessons , and Activities . */
   usesRoutine?: (InstructionalRoutine | OcxLink<"InstructionalRoutine">)[];
@@ -256,7 +267,9 @@ export type LessonGrouping = {
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
-    | OcxLink<"StandardsFrameworkItem">
+    | (OcxLink<"StandardsFrameworkItem"> & {
+        curriculumAlignmentType?: CurriculumAlignmentTypeENUM;
+      })
   )[];
   /** A hasDependency relationship connects a curriculum element to one or more prerequisite elements of the same type, indicating that prior knowledge, skills, or content must be addressed before the current element can be effectively taught or undertaken. This applies to LessonGroupings , Lessons , and Activities . */
   hasDependency?: (LessonGrouping | OcxLink<"LessonGrouping">)[];
@@ -318,7 +331,9 @@ export type Lesson = {
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
-    | OcxLink<"StandardsFrameworkItem">
+    | (OcxLink<"StandardsFrameworkItem"> & {
+        curriculumAlignmentType?: CurriculumAlignmentTypeENUM;
+      })
   )[];
   /** A usesRoutine relationship connects a curriculum element to one or more InstructionalRoutines , representing structured, repeatable teaching strategies consistently employed to support instructional delivery and student engagement. This applies to Courses , Lessons , and Activities . */
   usesRoutine?: (InstructionalRoutine | OcxLink<"InstructionalRoutine">)[];
@@ -385,7 +400,9 @@ export type Activity = {
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
-    | OcxLink<"StandardsFrameworkItem">
+    | (OcxLink<"StandardsFrameworkItem"> & {
+        curriculumAlignmentType?: CurriculumAlignmentTypeENUM;
+      })
   )[];
   /** A usesRoutine relationship connects a curriculum element to one or more InstructionalRoutines , representing structured, repeatable teaching strategies consistently employed to support instructional delivery and student engagement. This applies to Courses , Lessons , and Activities . */
   usesRoutine?: (InstructionalRoutine | OcxLink<"InstructionalRoutine">)[];
@@ -446,7 +463,9 @@ export type Assessment = {
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
-    | OcxLink<"StandardsFrameworkItem">
+    | (OcxLink<"StandardsFrameworkItem"> & {
+        curriculumAlignmentType?: CurriculumAlignmentTypeENUM;
+      })
   )[];
   /** A references relationship connects a curriculum element to other instructional content or resources in a non-sequential way, highlighting connections that reinforce, revisit, or contextualize knowledge. This includes Lessons referencing prior Lessons or GlossaryTerms , Activities referencing Lessons , and Assessments referencing Lessons . */
   references?: (Lesson | OcxLink<"Lesson">)[];
@@ -491,7 +510,9 @@ export type Material = {
   /** A hasEducationalAlignment relationship connects a curriculum element to one or more StandardsFrameworkItems , specifying the academic standards, competencies, or learning goals that the element is intended to teach, assess, or support. This alignment applies across Courses , LessonGroupings , Lessons , Activities , Assessments , and Materials . */
   hasEducationalAlignment?: (
     | StandardsFrameworkItem
-    | OcxLink<"StandardsFrameworkItem">
+    | (OcxLink<"StandardsFrameworkItem"> & {
+        curriculumAlignmentType?: CurriculumAlignmentTypeENUM;
+      })
   )[];
   /** TRUE if the material is meant to be developed or revisited across multiple lessons. */
   isProgressive?: boolean;
